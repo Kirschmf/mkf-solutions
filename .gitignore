@@ -4,3 +4,6 @@ dist/
 *.log
 qa/
 qa-root/
+.superpowers/
+test-results/
+playwright-report/
