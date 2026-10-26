@@ -1,6 +1,6 @@
 # MKF Solutions — Refatoração completa Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Reconstruir integralmente a experiência comercial da MKF com portfólio giratório, demonstração operacional e apresentação pessoal interativa.
 
@@ -87,12 +87,12 @@ Prioridade de validação: direção visual → portfólio → motor da demonstr
 - `useJourney()` retorna `{ need, setNeed, brief, updateBrief, selectedProjectId, selectProject }`.
 - `NeedSelector({value: NeedId, onChange: (need: NeedId) => void})`.
 
-- [ ] Registrar baseline da versão atual em desktop 1440 e mobile 390; conservar o commit publicado como referência de retorno.
-- [ ] Configurar scripts `test:unit` (Vitest), `test:e2e` (Playwright) e `test:types` (`tsc --noEmit`) quando necessários às tarefas de lógica. Preservar `dev`, `build` e `preview`.
-- [ ] Criar tokens e fontes locais da spec; montar header, abertura e rodapé novos. Remover a dependência da esfera e do fundo de linhas dessa fatia.
-- [ ] Verificar no navegador que as cinco intenções trocam a prévia e a ação; `Começar` preserva a intenção no contexto. Verificar teclado e menu mobile.
-- [ ] Produzir capturas da fatia em 1440 e 390. Conferir contraste, texto e foco; `npm run build` e `npm run test:types` devem terminar com exit 0.
-- [ ] Commit: `feat: rebuild MKF visual foundation and interactive introduction`.
+- [x] Registrar baseline da versão atual em desktop 1440 e mobile 390; conservar o commit publicado como referência de retorno.
+- [x] Configurar scripts `test:unit` (Vitest), `test:e2e` (Playwright) e `test:types` (`tsc --noEmit`) quando necessários às tarefas de lógica. Preservar `dev`, `build` e `preview`.
+- [x] Criar tokens e fontes locais da spec; montar header, abertura e rodapé novos. Remover a dependência da esfera e do fundo de linhas dessa fatia.
+- [x] Verificar no navegador que as cinco intenções trocam a prévia e a ação; `Começar` preserva a intenção no contexto. Verificar teclado e menu mobile.
+- [x] Produzir capturas da fatia em 1440 e 390. Conferir contraste, texto e foco; `npm run build` e `npm run test:types` devem terminar com exit 0.
+- [x] Commit: `feat: rebuild MKF visual foundation and interactive introduction`.
 
 ### Task 2: Evidências e cobertura visual do portfólio
 
@@ -100,12 +100,12 @@ Prioridade de validação: direção visual → portfólio → motor da demonstr
 
 **Interfaces:** `ProjectRecord` preserva `id`, `name`, `category`, `status`, `description`, `details`, `role`, `tags`, `url`, `image`, `gallery`, `captureNote` e `visualType`; acrescenta `mediaState: 'verified' | 'demo' | 'unavailable'` e `needIds: NeedId[]`. O CSV registra `id,artifactType,source,mediaState,capturePath,reviewNote`.
 
-- [ ] Conferir 55 IDs únicos e a divisão 26 com imagem / 29 sem imagem antes do enriquecimento.
-- [ ] Classificar cada ausência e procurar o artefato real conforme R3. Capturar interfaces/execuções com dados demonstrativos quando a implementação puder ser executada.
-- [ ] Rever enquadramento e identificação das imagens existentes; manter telas privadas e dados financeiros fora das capturas.
-- [ ] Atualizar matriz e catálogo; cada uma das 55 entradas termina com mídia verificada/demonstrativa ou ausência explicitamente identificada.
-- [ ] Verificação de conteúdo: todos os caminhos de imagem/galeria existem; nenhum ID desapareceu; nenhum case herdou imagem de projeto diferente; `npm run build` termina com exit 0.
-- [ ] Commit: `content: complete project evidence and media inventory`.
+- [x] Conferir 55 IDs únicos e a divisão 26 com imagem / 29 sem imagem antes do enriquecimento.
+- [x] Classificar cada ausência e procurar o artefato real conforme R3. Capturar interfaces/execuções com dados demonstrativos quando a implementação puder ser executada.
+- [x] Rever enquadramento e identificação das imagens existentes; manter telas privadas e dados financeiros fora das capturas.
+- [x] Atualizar matriz e catálogo; cada uma das 55 entradas termina com mídia verificada/demonstrativa ou ausência explicitamente identificada.
+- [x] Verificação de conteúdo: todos os caminhos de imagem/galeria existem; nenhum ID desapareceu; nenhum case herdou imagem de projeto diferente; `npm run build` termina com exit 0.
+- [x] Commit: `content: complete project evidence and media inventory`.
 
 ### Task 3: Portfólio giratório e casos navegáveis
 
@@ -117,15 +117,15 @@ Prioridade de validação: direção visual → portfólio → motor da demonstr
 - `useProjectUrl()` retorna `{openProjectId, openProject(id: string), closeProject()}` e observa `popstate`.
 - `ProjectCase({project: ProjectRecord, onClose: () => void})`.
 
-- [ ] Escrever testes de comportamento que inicialmente falhem: busca acentuada seleciona o resultado correto; zero resultados retorna `selectedId=null`; um resultado mantém índice zero após `next`; filtro conserva seleção quando ela ainda existe.
-- [ ] Executar `npm run test:unit -- src/features/portfolio` e registrar falhas esperadas antes de implementar navegação.
-- [ ] Implementar a navegação única e o catálogo completo. Implementar URLs `?projeto=<id>#portfolio`, incluindo ID desconhecido e Voltar.
-- [ ] Construir palco com nove posições, imagens horizontais e conteúdo semântico em HTML. Reproduzir o comportamento do anel da Truth e adaptar a interação do Arc Flow; não transplantar o checkout da Truth.
-- [ ] Implementar setas, arraste local com captura de ponteiro, reprodução a cada seis segundos e interrupções de R3. Importar Three.js sob demanda; liberar recursos em troca/desmontagem.
-- [ ] Criar fallback HTML/CSS para mobile, movimento reduzido e WebGL indisponível. Instalar/adaptar Spell `Kbd` para instruções dos controles, preservando licença.
-- [ ] Escrever E2E: navegar por teclado/toque; abrir case e galeria; voltar; filtrar sem resultados; negar WebGL; ativar movimento reduzido; conferir acesso aos 55 IDs. Verificar que rolagem vertical continua funcionando.
-- [ ] Executar unitários, E2E de portfólio e build. Inspecionar imagens/câmera e confirmar máximo de nove slots/texturas ativas após navegar por 55 registros.
-- [ ] Commit: `feat: add interactive rotating portfolio and project cases`.
+- [x] Escrever testes de comportamento que inicialmente falhem: busca acentuada seleciona o resultado correto; zero resultados retorna `selectedId=null`; um resultado mantém índice zero após `next`; filtro conserva seleção quando ela ainda existe.
+- [x] Executar `npm run test:unit -- src/features/portfolio` e registrar falhas esperadas antes de implementar navegação.
+- [x] Implementar a navegação única e o catálogo completo. Implementar URLs `?projeto=<id>#portfolio`, incluindo ID desconhecido e Voltar.
+- [x] Construir palco com nove posições, imagens horizontais e conteúdo semântico em HTML. Reproduzir o comportamento do anel da Truth e adaptar a interação do Arc Flow; não transplantar o checkout da Truth.
+- [x] Implementar setas, arraste local com captura de ponteiro, reprodução a cada seis segundos e interrupções de R3. Importar Three.js sob demanda; liberar recursos em troca/desmontagem.
+- [x] Criar fallback HTML/CSS para mobile, movimento reduzido e WebGL indisponível. Instalar/adaptar Spell `Kbd` para instruções dos controles, preservando licença.
+- [x] Escrever E2E: navegar por teclado/toque; abrir case e galeria; voltar; filtrar sem resultados; negar WebGL; ativar movimento reduzido; conferir acesso aos 55 IDs. Verificar que rolagem vertical continua funcionando.
+- [x] Executar unitários, E2E de portfólio e build. Inspecionar imagens/câmera e confirmar máximo de nove slots/texturas ativas após navegar por 55 registros.
+- [x] Commit: `feat: add interactive rotating portfolio and project cases`.
 
 ### Task 4: Motor operacional da demonstração
 
@@ -140,13 +140,13 @@ Prioridade de validação: direção visual → portfólio → motor da demonstr
 - `calculateOrderTotal(input: OrderInput): number` retorna centavos; `validateOrder(input)` retorna erros por campo.
 - `buildOrderArtifacts(state: WorkflowState): {orderJson: string; itemsCsv: string}` só aceita estado concluído.
 
-- [ ] Escrever testes que falhem para total padrão 25.800 centavos, estoque final três, limite de aprovação exatamente 30.000 e aprovação exigida em 30.001.
-- [ ] Acrescentar testes: quantidade zero/negativa/fracionária; preço/frete negativos ou não finitos; estoque insuficiente; cancelamento antes de registro sem débito; recusa e retry; falha de registro e retry sem duplicação; eventos de `runId` antigo ignorados; pausa impede `NEXT`; execução só conclui com decisões exigidas.
-- [ ] Executar `npm run test:unit -- src/features/workflow` e registrar falhas esperadas; implementar regras/guardas de R4.
-- [ ] Criar os cinco presets como entradas e opções do motor, sem sequências de animação gravadas.
-- [ ] Criar geradores JSON/CSV e testar equivalência entre valores exportados e estado concluído. `registered` impede segunda criação/desconto.
-- [ ] Reexecutar o conjunto até passar, rodar tipos e build.
-- [ ] Commit: `feat: implement deterministic operational demo engine`.
+- [x] Escrever testes que falhem para total padrão 25.800 centavos, estoque final três, limite de aprovação exatamente 30.000 e aprovação exigida em 30.001.
+- [x] Acrescentar testes: quantidade zero/negativa/fracionária; preço/frete negativos ou não finitos; estoque insuficiente; cancelamento antes de registro sem débito; recusa e retry; falha de registro e retry sem duplicação; eventos de `runId` antigo ignorados; pausa impede `NEXT`; execução só conclui com decisões exigidas.
+- [x] Executar `npm run test:unit -- src/features/workflow` e registrar falhas esperadas; implementar regras/guardas de R4.
+- [x] Criar os cinco presets como entradas e opções do motor, sem sequências de animação gravadas.
+- [x] Criar geradores JSON/CSV e testar equivalência entre valores exportados e estado concluído. `registered` impede segunda criação/desconto.
+- [x] Reexecutar o conjunto até passar, rodar tipos e build.
+- [x] Commit: `feat: implement deterministic operational demo engine`.
 
 ### Task 5: Bancada, mapa e execução interativa
 
@@ -154,15 +154,15 @@ Prioridade de validação: direção visual → portfólio → motor da demonstr
 
 **Interfaces:** os componentes consomem o `WorkflowState` e `dispatch` do Task 4; o mapa não possui cópia própria das regras. `WorkflowGraph({state, onInspectStage})`; `WorkflowInspector({state, inspectedStage})`; `WorkflowResult({state})`.
 
-- [ ] Adicionar `@xyflow/react@12.12.0` e CSS necessário; manter `nodeTypes` estável e campos editáveis fora da área de drag.
-- [ ] Construir editor, nós, conexões e inspetor. Estados de nó são derivados de `stage`, `status` e histórico.
-- [ ] Implementar controles de execução e decisões humanas. O scheduler emite eventos com `runId`; limpa timers na pausa, reset, troca de cenário e desmontagem.
-- [ ] Animar o dado percorrendo a conexão da transição usando SVG/GSAP. Usar Animated Beam como referência de conexão, sem loop luminoso desligado da execução.
-- [ ] Implementar resultados e downloads reais. Criar a rota curta de contato → encaminhamento → cartão de CRM demonstrativo → briefing, com dados reutilizados no contato.
-- [ ] Testar no browser: mudar duas para três unidades altera total de R$ 258,00 para R$ 378,00 e exige aprovação; reduzir estoque para dois bloqueia; corrigir permite prosseguir; auto para em pagamento; pausar/reset não gera etapa tardia; retry não debita duas vezes.
-- [ ] Testar mobile com a visão vertical, teclado, movimento reduzido e ausência de chamadas externas durante a simulação; baixar e conferir JSON/CSV.
-- [ ] Executar `npm run test:e2e -- tests/e2e/workflow.spec.ts`, unitários do motor, tipos e build.
-- [ ] Commit: `feat: build interactive workflow lab and inspectable results`.
+- [x] Adicionar `@xyflow/react@12.12.0` e CSS necessário; manter `nodeTypes` estável e campos editáveis fora da área de drag.
+- [x] Construir editor, nós, conexões e inspetor. Estados de nó são derivados de `stage`, `status` e histórico.
+- [x] Implementar controles de execução e decisões humanas. O scheduler emite eventos com `runId`; limpa timers na pausa, reset, troca de cenário e desmontagem.
+- [x] Animar o dado percorrendo a conexão da transição usando SVG/GSAP. Usar Animated Beam como referência de conexão, sem loop luminoso desligado da execução.
+- [x] Implementar resultados e downloads reais. Criar a rota curta de contato → encaminhamento → cartão de CRM demonstrativo → briefing, com dados reutilizados no contato.
+- [x] Testar no browser: mudar duas para três unidades altera total de R$ 258,00 para R$ 378,00 e exige aprovação; reduzir estoque para dois bloqueia; corrigir permite prosseguir; auto para em pagamento; pausar/reset não gera etapa tardia; retry não debita duas vezes.
+- [x] Testar mobile com a visão vertical, teclado, movimento reduzido e ausência de chamadas externas durante a simulação; baixar e conferir JSON/CSV.
+- [x] Executar `npm run test:e2e -- tests/e2e/workflow.spec.ts`, unitários do motor, tipos e build.
+- [x] Commit: `feat: build interactive workflow lab and inspectable results`.
 
 ### Task 6: Apresentação pessoal e evidências
 
@@ -170,12 +170,12 @@ Prioridade de validação: direção visual → portfólio → motor da demonstr
 
 **Interfaces:** `ProfilePerspective = 'build' | 'connect' | 'operate'`; cada perspectiva contém `title`, `description` e `projectIds` válidos no catálogo. `ProfileExplorer({onOpenProject: (id: string) => void})`.
 
-- [ ] Modelar os fatos já verificados: Exército, Object Edge/Specialized, Truth/MKF, formação e certificações. Separar participação em equipe e autoria de produto.
-- [ ] Construir as três perspectivas e timeline selecionável. Preservar a foto, variar composição e evidências conforme a escolha e usar GSAP Flip para continuidade.
-- [ ] Adicionar navegação de cada evidência ao case correto. Todo texto essencial fica em HTML, com seleção perceptível também por teclado/toque.
-- [ ] Escrever E2E: cada perspectiva muda descrição e evidências; timeline revela períodos/funções corretos; links resolvem um ID existente; movimento reduzido conserva informações e seleção.
-- [ ] Executar o teste de perfil, tipos e build; revisar screenshots desktop/mobile.
-- [ ] Commit: `feat: make professional profile explorable through project evidence`.
+- [x] Modelar os fatos já verificados: Exército, Object Edge/Specialized, Truth/MKF, formação e certificações. Separar participação em equipe e autoria de produto.
+- [x] Construir as três perspectivas e timeline selecionável. Preservar a foto, variar composição e evidências conforme a escolha e usar GSAP Flip para continuidade.
+- [x] Adicionar navegação de cada evidência ao case correto. Todo texto essencial fica em HTML, com seleção perceptível também por teclado/toque.
+- [x] Escrever E2E: cada perspectiva muda descrição e evidências; timeline revela períodos/funções corretos; links resolvem um ID existente; movimento reduzido conserva informações e seleção.
+- [x] Executar o teste de perfil, tipos e build; revisar screenshots desktop/mobile.
+- [x] Commit: `feat: make professional profile explorable through project evidence`.
 
 ### Task 7: Soluções, processo e briefing completos
 
@@ -183,26 +183,26 @@ Prioridade de validação: direção visual → portfólio → motor da demonstr
 
 **Interfaces:** `ServiceExplorer({need: NeedId, onNeedChange, onStartBrief})`; `buildBriefMessage(draft: BriefDraft): string`; `BriefWizard({initialDraft: BriefDraft, onDraftChange})`. O contexto conserva campos ao voltar.
 
-- [ ] Substituir a lista de accordions pelo explorador de R2; cada serviço mostra case, escopo e ação preenchida.
-- [ ] Montar o processo de contratação com entregáveis por etapa; reescrever FAQ e rodapé conforme a nova voz.
-- [ ] Construir o briefing em três etapas. Validar objetivo de 3–1.500 caracteres e nome opcional de até 120; mostrar a mensagem final inteira.
-- [ ] Adaptar Spell Copy Button e implementar fallback quando `navigator.clipboard` falhar. O botão que abre conversa gera URL somente para `https://wa.me/5551991629355` com a mensagem codificada.
-- [ ] Escrever testes de `buildBriefMessage` para nomes com acentos, caracteres `&`/`?`, objetivo longo e campos opcionais. E2E verifica contexto vindo da abertura/serviços/laboratório, preservação ao voltar, validação e URL final.
-- [ ] Executar unitários, E2E de perfil/contato, tipos e build; testar clipboard bloqueado sem perder o texto.
-- [ ] Commit: `feat: connect solution exploration to guided commercial brief`.
+- [x] Substituir a lista de accordions pelo explorador de R2; cada serviço mostra case, escopo e ação preenchida.
+- [x] Montar o processo de contratação com entregáveis por etapa; reescrever FAQ e rodapé conforme a nova voz.
+- [x] Construir o briefing em três etapas. Validar objetivo de 3–1.500 caracteres e nome opcional de até 120; mostrar a mensagem final inteira.
+- [x] Adaptar Spell Copy Button e implementar fallback quando `navigator.clipboard` falhar. O botão que abre conversa gera URL somente para `https://wa.me/5551991629355` com a mensagem codificada.
+- [x] Escrever testes de `buildBriefMessage` para nomes com acentos, caracteres `&`/`?`, objetivo longo e campos opcionais. E2E verifica contexto vindo da abertura/serviços/laboratório, preservação ao voltar, validação e URL final.
+- [x] Executar unitários, E2E de perfil/contato, tipos e build; testar clipboard bloqueado sem perder o texto.
+- [x] Commit: `feat: connect solution exploration to guided commercial brief`.
 
 ### Task 8: Revisão integral, remoção de legado e versão privada
 
 **Files:** revisar os módulos; remover `src/NetworkScene.jsx`, componentes antigos sem uso e `src/style.css` depois da migração; atualizar `DESIGN.md`, `THIRD_PARTY_MOTION.md`, testes e evidências em `qa/` ignorado pelo Git.
 
-- [ ] Confirmar cobertura de R1–R6 e dos cinco itens de Review Focus. Remover imports/estilos de esfera, rede, Blur Reveal, Tilt Card e Background Paths; não deixar as duas apresentações coexistindo.
-- [ ] Executar `npm run test:unit`, `npm run test:types`, `npm run test:e2e` e `npm run build`; todos precisam terminar com exit 0.
-- [ ] Revisar 320, 390, 768, 1.440 e 1.920 px; texto a 200%; teclado; toque; movimento reduzido; falha de WebGL; erro de imagem; estados zero/um resultado; controle de auto-rotação e integridade dos downloads.
-- [ ] Capturar antes/depois das sete superfícies principais. Revisão independente deve identificar mudanças em composição, conteúdo e interação em todas elas, e confirmar ausência de decoração ambiental genérica.
-- [ ] Confirmar 55 IDs, participação correta e imagens/galerias com origens registradas. Revalidar número comercial e acesso privado.
-- [ ] Commit: `refactor: finalize MKF interactive experience and remove legacy presentation`.
-- [ ] Executar o workflow do Sites para o mesmo `project_id`, construir/pacotar o commit exato, salvar e implantar em privado. Renovar credencial se necessário; preservar IDs de versão/deployment em retomadas.
-- [ ] Confirmar `status=succeeded`, abrir o endereço existente e entregar a versão privada com evidências da revisão. Uma mudança posterior de audiência depende de pedido do usuário.
+- [x] Confirmar cobertura de R1–R6 e dos cinco itens de Review Focus. Remover imports/estilos de esfera, rede, Blur Reveal, Tilt Card e Background Paths; não deixar as duas apresentações coexistindo.
+- [x] Executar `npm run test:unit`, `npm run test:types`, `npm run test:e2e` e `npm run build`; todos precisam terminar com exit 0.
+- [x] Revisar 320, 390, 768, 1.440 e 1.920 px; texto a 200%; teclado; toque; movimento reduzido; falha de WebGL; erro de imagem; estados zero/um resultado; controle de auto-rotação e integridade dos downloads.
+- [x] Capturar antes/depois das sete superfícies principais. Revisão independente deve identificar mudanças em composição, conteúdo e interação em todas elas, e confirmar ausência de decoração ambiental genérica.
+- [x] Confirmar 55 IDs, participação correta e imagens/galerias com origens registradas. Revalidar número comercial e acesso privado.
+- [x] Commit: `refactor: finalize MKF interactive experience and remove legacy presentation`.
+- [x] Executar o workflow do Sites para o mesmo `project_id`, construir/pacotar o commit exato, salvar e implantar em privado. Renovar credencial se necessário; preservar IDs de versão/deployment em retomadas.
+- [x] Confirmar `status=succeeded`, abrir o endereço existente e entregar a versão privada com evidências da revisão. Uma mudança posterior de audiência depende de pedido do usuário.
 
 ## Paralelismo e pontos de integração
 
@@ -211,8 +211,20 @@ Prioridade de validação: direção visual → portfólio → motor da demonstr
 - Cada responsável possui somente seu domínio e seus testes. Alterações em `App.jsx`, dependências e contexto passam pelo integrador para evitar conflito.
 - A primeira revisão visual deve acontecer na fatia abertura + carrossel, antes do restante da migração. Não aguardar a página inteira para descobrir que a direção ainda parece genérica.
 
+## Encerramento do planejamento (26/10/2026)
+
+Execução concluída no mesmo dia, com agentes em paralelo (build_portfolio_v2, build_workflow_v2, profile_media_v2) e revisão independente (review_v2). Evidência completa em `docs/verification/2026-10-26-refactor.md`.
+
+- **8/8 tasks executadas**; 33 testes unitários, 13 testes de jornada, `test:types` e `build` com exit 0; reteste de produção após 5 correções da revisão independente.
+- **Publicado no endereço privado existente** (`project_id=appgprj_6adf6ab49ea88191b5a1ef2439853d53`): https://mkf-solutions.contas-truthcommerce.chatgpt.site
+- **Pendente de decisão do dono:**
+  1. Liberar acesso público ou manter privado (hoje: privado, conforme escolha registrada na thread do Codex).
+  2. QA manual do dono no endereço privado antes de divulgar.
+  3. Opcional: produzir prévias para os 24 registros ainda sem artefato visual (limite conhecido; catálogo continua íntegro com ausência identificada).
+- Nenhum item do plano ficou aberto por bloqueio técnico. O planejamento está encerrado; pendências remanescentes são de decisão e revisão do dono.
+
 ## Revisão do planejamento
 
 Cobertura conferida: esfera removida (Tasks 1/8), interatividade em todas as superfícies (1/3/5/6/7), sites girando e pesquisa 21st/CodePen (3), fluxo completo com decisões/resultados (4/5), apresentação pessoal interativa (6), substituição visual/editorial/estrutural completa (1–8).
 
-Este documento planeja a implementação. Nenhuma mudança no site hospedado foi executada nesta etapa.
+Este documento planejou a implementação. A execução ocorreu em 26/10/2026 conforme a seção de encerramento acima.
