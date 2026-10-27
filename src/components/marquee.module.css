@@ -1,4 +1,4 @@
-.strip{background:linear-gradient(115deg,var(--blue) 10%,#08718A 95%);color:var(--white);overflow:hidden;user-select:none}
+.strip{background:#2548f4;color:var(--white);overflow:hidden;user-select:none}
 .track{display:flex;width:max-content;animation:marquee 30s linear infinite}
 .strip:hover .track{animation-play-state:paused}
 .item{display:inline-flex;align-items:center;gap:26px;padding:17px 0;font-family:var(--font-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;color:var(--white)}
