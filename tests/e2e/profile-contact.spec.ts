@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 test('a escolha da abertura atravessa serviços e briefing até a mensagem correta',async({page})=>{
  await page.goto('/');
  await page.locator('#inicio').getByRole('button',{name:'Automatizar uma rotina'}).click();
- await expect(page.locator('#solucoes').getByRole('button',{name:'Automações',exact:true})).toHaveAttribute('aria-pressed','true');
+ await expect(page.locator('#solucoes article[data-service-card="automations"]')).toHaveAttribute('data-selected','true');
  const contact=page.locator('#contato');
  await expect(contact.getByRole('button',{name:'Automatizar uma rotina'})).toHaveAttribute('aria-pressed','true');
  await contact.getByRole('button',{name:'Continuar',exact:true}).click();

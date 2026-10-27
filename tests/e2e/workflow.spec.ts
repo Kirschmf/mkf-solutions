@@ -69,8 +69,12 @@ test.describe('local operational laboratory',()=>{
     await page.keyboard.press('Enter');
     await expect(lab.getByRole('complementary').getByRole('heading',{name:'Conferir estoque',exact:true})).toBeVisible();
     await lab.getByRole('button',{name:'Próximo passo',exact:true}).click();
-    await lab.getByTestId('rf__edge-edit-validate').focus();
+    await lab.getByRole('button',{name:'Visão geral do mapa',exact:true}).click();
+    const map=page.getByRole('dialog',{name:'Mapa da demonstração'});
+    await expect(map).toBeVisible();
+    await map.getByTestId('rf__edge-edit-validate').focus();
     await page.keyboard.press('Enter');
+    await expect(map).toBeHidden();
     await expect(lab.getByRole('heading',{name:'Dados em trânsito',exact:true})).toBeVisible();
     await expect(lab.getByRole('complementary').getByText('Pedido recebido para validação.',{exact:true})).toBeVisible();
   });
@@ -92,6 +96,38 @@ test.describe('local operational laboratory',()=>{
     await lab.getByRole('button',{name:/Levar contexto ao contato/}).click();
     await expect(page).toHaveURL(/#contato$/);
     await expect(page.locator('#contato').getByRole('button',{name:'Automatizar uma rotina',exact:true})).toHaveAttribute('aria-pressed','true');
+  });
+  test('a jornada anima somente a execução real e respeita a redução de movimento',async({page})=>{
+    await page.emulateMedia({reducedMotion:'no-preference'});
+    const lab=page.locator('#automacoes');
+    const journey=lab.getByTestId('workflow-journey');
+    const packet=journey.locator('[data-workflow-packet]');
+    await expect(journey).toHaveAttribute('data-stage','edit');
+    await expect(packet).toHaveCSS('opacity','0');
+
+    // Inspecionar é uma leitura: não executa o pedido nem dispara o pacote.
+    await journey.getByRole('button',{name:'Etapa 3: Conferir estoque',exact:true}).click();
+    await expect(journey).toHaveAttribute('data-stage','edit');
+    await expect(packet).toHaveCSS('opacity','0');
+    await expect(lab.getByTestId('workflow-status')).toHaveText('Pronto para começar');
+
+    await lab.getByRole('button',{name:'Próximo passo',exact:true}).click();
+    await expect(journey).toHaveAttribute('data-stage','validate');
+    await expect.poll(()=>packet.evaluate(element=>Number(getComputedStyle(element).opacity)),{intervals:[10,20]}).toBeGreaterThan(0);
+    const start=await packet.boundingBox();
+    await expect.poll(async()=>{
+      const current=await packet.boundingBox();
+      return current&&start?Math.hypot(current.x-start.x,current.y-start.y):0;
+    },{intervals:[20]}).toBeGreaterThan(3);
+
+    await page.emulateMedia({reducedMotion:'reduce'});
+    await expect(page.locator('html')).toHaveAttribute('data-reduced-motion','true');
+    await expect(packet).toHaveCSS('opacity','0');
+    await lab.getByRole('button',{name:'Próximo passo',exact:true}).click();
+    await expect(journey).toHaveAttribute('data-stage','stock');
+    await expect(packet).toHaveCSS('opacity','0');
+    await expect(lab.getByTestId('workflow-status')).toHaveText('Execução em andamento');
+    await expect(journey.getByRole('button',{name:'Etapa 3: Conferir estoque',exact:true})).toHaveAttribute('aria-current','step');
   });
 });
 

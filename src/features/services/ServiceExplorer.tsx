@@ -1,44 +1,42 @@
-import {useRef} from 'react';
-import {ArrowRight,ArrowUpRight,Check} from 'lucide-react';
+import {ArrowUpRight,Check,ChevronDown} from 'lucide-react';
 import {needs,scopeNotes} from '../../data/services';
 import {useJourney} from '../../app/JourneyContext';
-import {usePanelMotion} from '../../app/usePanelMotion';
 import MotionHeading from '../../components/MotionHeading';
-import InteractiveTabs from '../../components/InteractiveTabs';
+import ServiceArtwork from './ServiceArtwork';
 import styles from './services.module.css';
 
 export default function ServiceExplorer(){
  const {need,setNeed}=useJourney();
- const service=needs.find(n=>n.id===need)!;
- const panel=useRef<HTMLDivElement>(null);
- usePanelMotion(panel,need,{index:needs.findIndex(n=>n.id===need)});
-
- return <section className={`section ${styles.section}`} id="solucoes">
+ return <section className={`section ${styles.section}`} id="solucoes" aria-labelledby="services-title">
   <div className="container">
-   <div className="section-top">
+   <div className={`section-top ${styles.heading}`}>
     <div>
      <span className="eyebrow" data-motion-panel>O que podemos construir</span>
-     <MotionHeading className="section-title" lines={['Um projeto começa','pelo que precisa resolver.']}/>
+     <MotionHeading id="services-title" className="section-title" lines={['Um projeto começa','pelo que precisa resolver.']}/>
     </div>
-    <p data-motion-panel>Escolha uma frente de trabalho para conhecer os serviços e o escopo de cada solução.</p>
+    <p data-motion-panel>Do site aos processos da operação. Conheça o trabalho por trás de cada solução.</p>
    </div>
-   <div className={styles.explorer}>
-    <InteractiveTabs activeKey={need} className={styles.options} role="group" aria-label="Frentes de trabalho" data-motion-group>
-     {needs.map(n=><button key={n.id} aria-pressed={n.id===need} onClick={()=>setNeed(n.id)} className={n.id===need?styles.active:''} data-motion-item>
-      {n.label}<ArrowRight size={21}/>
-      <span className={styles.optionRule} data-motion-rule aria-hidden="true"/>
-     </button>)}
-    </InteractiveTabs>
-    <div className={styles.content} data-motion-panel>
-     <div className={styles.description} ref={panel}>
-      <span>{service.kind}</span>
-      <h3>{service.title}</h3>
-      <p>{service.description}</p>
-      <ul>{service.deliverables.map(d=><li key={d}><Check size={15}/>{d}</li>)}</ul>
-      <p className={styles.scope}><strong>Escopo combinado</strong>{scopeNotes[need]}</p>
-      <a className="button" href="#contato">Começar por aqui<ArrowUpRight size={17}/></a>
-     </div>
-    </div>
+   <div className={styles.cards} data-motion-group>
+    {needs.map(service=>{
+     const label=service.id==='ecommerce'?'E-commerce':service.label;
+     return <article key={service.id} className={styles.card} data-service-card={service.id} data-selected={need===service.id} data-motion-item aria-labelledby={`service-${service.id}-title`}>
+      <div className={styles.artwork}><ServiceArtwork need={service.id}/></div>
+      <div className={styles.body}>
+       <div className={styles.cardHeading}>
+        <h3 id={`service-${service.id}-title`}>{label}</h3>
+        <span className={styles.selected} aria-hidden={need!==service.id}><Check size={15}/><span className="sr-only">Serviço selecionado</span></span>
+       </div>
+       <p className={styles.promise}>{service.title}</p>
+       <p className={styles.description}>{service.description}</p>
+       <ul className={styles.deliverables}>{service.deliverables.map(item=><li key={item}><Check size={14}/>{item}</li>)}</ul>
+       <details className={styles.scope}>
+        <summary>Escopo do projeto<ChevronDown size={15}/></summary>
+        <p>{scopeNotes[service.id]}</p>
+       </details>
+       <a className={styles.action} href="#contato" onClick={()=>setNeed(service.id)}>Conversar sobre {label}<ArrowUpRight size={18}/></a>
+      </div>
+     </article>;
+    })}
    </div>
   </div>
  </section>;

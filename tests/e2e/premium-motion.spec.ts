@@ -18,19 +18,20 @@ async function visualState(target: Locator) {
   });
 }
 
-test('reduzir movimento no meio da escolha de serviço restaura o conteúdo inteiro', async ({page}) => {
+test('reduzir movimento na entrada dos cards deixa todas as ações legíveis', async ({page}) => {
   await page.goto('/');
   const services = page.locator('#solucoes');
-  const title = services.getByRole('heading', {level: 3});
-  await services.scrollIntoViewIfNeeded();
-  await expect.poll(() => visualState(title)).toEqual({opacity: 1, displacement: 0});
-  await services.getByRole('button', {name: 'Automações', exact: true}).click();
-  await expect(title).toHaveText('As ferramentas conversam. A equipe ganha tempo.');
-  await expect.poll(async () => (await visualState(title)).opacity, {intervals: [10]}).toBeLessThan(.98);
+  const cards = services.locator('article[data-service-card]');
+  await expect(cards).toHaveCount(5);
+  await services.evaluate(element => element.scrollIntoView({block: 'start', behavior: 'instant'}));
+  await expect.poll(async () => (await visualState(cards.first())).opacity, {intervals: [10]}).toBeLessThan(.98);
   await page.emulateMedia({reducedMotion: 'reduce'});
   await expect(page.locator('html')).toHaveAttribute('data-reduced-motion', 'true');
-  await expect.poll(() => visualState(title)).toEqual({opacity: 1, displacement: 0});
-  await expect(services.getByRole('link', {name: 'Começar por aqui'})).toBeVisible();
+  for (const card of await cards.all()) {
+    await expect.poll(() => visualState(card)).toEqual({opacity: 1, displacement: 0});
+    await expect(card.getByRole('heading', {level: 3})).toBeVisible();
+    await expect(card.getByRole('link', {name: /^Conversar sobre /})).toBeVisible();
+  }
 });
 
 test('alternar as perguntas remove a resposta fechada da leitura acessível', async ({page}) => {
@@ -97,7 +98,7 @@ test('trocas rápidas do processo mantêm os entregáveis da última etapa visí
 
 test('focar uma ação antes da entrada expõe o controle inteiro imediatamente', async ({page}) => {
   await page.goto('/');
-  const action = page.locator('#solucoes').getByRole('link', {name: 'Começar por aqui'});
+  const action = page.locator('#solucoes').getByRole('link', {name: 'Conversar sobre Sites', exact: true});
   await action.focus();
   await expect(action).toBeFocused();
   const opacity = await action.evaluate(element => new Promise<number>(resolve => {

@@ -1,0 +1,44 @@
+.journey{min-width:0;color:var(--workflow-text);background:#0f1c32;position:relative;padding:27px 28px 23px}
+.journeyHeader{display:flex;justify-content:space-between;align-items:baseline;gap:20px}
+.journeyHeader p{font-size:17px;font-weight:500}
+.journeyHeader>span{font-size:13px;color:#9eafc8;font-variant-numeric:tabular-nums}
+.canvas{height:493px;position:relative;margin-top:8px}
+.rails{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.rail,.railDone{stroke:#3a5474;stroke-width:1.5}
+.railDone{stroke:#7ad5df;stroke-width:2}
+.packet{filter:drop-shadow(0 2px 5px #050e2544);pointer-events:none}
+.checkpoints{list-style:none;padding:0;margin:0;position:absolute;inset:0}
+.checkpoints>li{position:absolute;width:0;height:0}
+.checkpoints button{position:absolute;left:0;top:0;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #526883;border-radius:50%;background:#14233b;color:#b7c7df;transition:background .18s,border-color .18s,color .18s}
+.checkpointNumber{font-size:14px;font-variant-numeric:tabular-nums;line-height:1}
+.checkpointLabel{position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);width:125px;font-size:13px;line-height:1.4;font-weight:400;text-align:center;color:#b7c7df;pointer-events:none}
+.lowerCheckpoint .checkpointLabel{bottom:auto;top:calc(100% + 12px)}
+.checkpoints button[data-done=true]{background:#153b49;border-color:#6ebdc6;color:#b4eff4}
+.checkpoints button[aria-current=step]{background:#2548f4;border-color:#9db5ff;color:#fff;box-shadow:0 0 0 5px #2548f41a}
+.checkpoints button[aria-current=step] .checkpointLabel{color:#f3eee7}
+.checkpoints button[data-blocked=true]{background:#654726;border-color:#e1b475;color:#fff0d3;box-shadow:0 0 0 5px #dbaf5712}
+.checkpoints button[data-inspected=true]:not([aria-current]){outline:1px solid #b7c7df;outline-offset:4px}
+.checkpoints button:hover{color:#fff;border-color:#9bdde8;background:#203d62}
+.checkpoints button:focus-visible{outline:3px solid #8fc9ff;outline-offset:5px}
+.ticket{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(76%,385px);max-height:calc(75% - 64px);display:flex;flex-direction:column;background:#2044bd;border:1px solid #577bd7;border-radius:7px 7px 3px 3px;color:#f7f5ee;box-shadow:0 15px 38px #020d2433;isolation:isolate}
+.ticketHeading{flex-shrink:0;border-bottom:1px solid #8fbcff4a;padding:16px 22px;font-size:12px;color:#d2e3ff}
+.ticketBody{padding:20px 22px 21px;overflow-wrap:anywhere;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#85a9f3 #2044bd}
+.product{font-size:21px;line-height:1.2;font-weight:500;letter-spacing:-.5px;max-width:100%;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.orderLine{display:flex;justify-content:space-between;flex-wrap:wrap;gap:5px 12px;font-size:13px;line-height:1.4;color:#d2e3ff;margin-top:10px}
+.ticketTotal{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:21px;padding-bottom:17px;border-bottom:1px dashed #8fbcff5c}
+.ticketTotal>span{font-size:12px;color:#d2e3ff}
+.ticketTotal strong{font-size:28px;line-height:1.1;font-weight:500;letter-spacing:-1px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;min-width:0;text-align:right}
+.ticketStatus{display:flex;gap:10px;align-items:center;margin-top:17px}
+.statusDot{width:7px;height:7px;flex-shrink:0;border-radius:50%;background:#92e1eb}
+.ticketStatus strong{font-size:13px;font-weight:500;display:block;line-height:1.35}
+.ticketStatus div>span{font-size:12px;color:#d2e3ff;display:block;line-height:1.4;margin-top:3px}
+.ticket[data-blocked=true] .statusDot{background:#ffcf96}
+.ticket[data-completed=true] .statusDot{background:#bcf5cc}
+.ticketPerforation{position:absolute;left:0;right:0;bottom:-5px;height:8px;background:radial-gradient(circle at 4px 7px,#0f1c32 4px,transparent 4.5px) 0 0/12px 8px repeat-x;pointer-events:none}
+.journeyHint{font-size:12px;line-height:1.5;text-align:center;color:#a7bbd5;margin-top:2px}
+@media(max-width:1150px) and (min-width:801px){.journey{padding-inline:19px}.checkpointLabel{width:94px;font-size:12px}.ticket{width:77%}.ticketBody{padding:20px}.ticketHeading{padding-inline:20px}}
+@media(max-width:800px){.canvas{height:475px}.journey{padding:25px 22px 22px}.ticket{width:min(76%,385px)}}
+@media(max-width:600px){.checkpointLabel{width:90px;font-size:12px}}
+@media(max-width:450px){.journey{padding:23px 13px 19px}.journeyHeader p{font-size:16px}.journeyHeader>span{font-size:12px}.canvas{height:485px;margin-top:4px}.checkpoints button{width:44px;height:44px}.checkpointNumber{font-size:12px}.checkpointLabel{width:66px;font-size:11px;line-height:1.3;bottom:calc(100% + 10px)}.lowerCheckpoint .checkpointLabel{bottom:auto;top:calc(100% + 10px)}.ticket{width:84%;border-radius:5px 5px 2px 2px}.ticketHeading{padding:13px 16px;font-size:11px}.ticketBody{padding:19px 16px}.product{font-size:20px}.orderLine{font-size:12px;gap:4px 9px}.ticketTotal{margin-top:19px;padding-bottom:17px;gap:8px}.ticketTotal strong{font-size:26px}.ticketStatus strong{font-size:12px}.ticketStatus div>span{font-size:11px}.journeyHint{font-size:11px;max-width:230px;margin-inline:auto}}
+@media(prefers-reduced-motion:reduce){.checkpoints button{transition:none}}
+:global(html[data-reduced-motion=true]) .checkpoints button{transition:none}

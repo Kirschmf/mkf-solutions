@@ -37,14 +37,13 @@ async function visualState(target: Locator) {
   });
 }
 
-test('oito grupos recebem indicadores sem interceptar seus controles', async ({page}) => {
+test('sete grupos recebem indicadores sem interceptar seus controles', async ({page}) => {
   await page.goto('/');
   const groups = page.locator('[data-interactive-tabs]');
-  await expect(groups).toHaveCount(8);
+  await expect(groups).toHaveCount(7);
   for (const label of [
     'Navegação principal',
     'O que você quer desenvolver?',
-    'Frentes de trabalho',
     'Rotina para experimentar',
     'Perspectivas da experiência',
     'Momentos da trajetória',
@@ -63,17 +62,17 @@ test('oito grupos recebem indicadores sem interceptar seus controles', async ({p
 
 test('o realce acompanha o cursor sem selecionar e desliza até a opção clicada', async ({page}) => {
   await page.goto('/');
-  const services = page.locator('#solucoes');
-  const group = services.getByRole('group', {name: 'Frentes de trabalho'});
-  const initial = group.getByRole('button', {name: 'Sites', exact: true});
-  const next = group.getByRole('button', {name: 'Automações', exact: true});
+  const process = page.locator('#processo');
+  const group = process.getByRole('group', {name: 'Etapas do projeto'});
+  const initial = group.getByRole('button', {name: /Briefing/});
+  const next = group.getByRole('button', {name: /Escopo/});
   await initial.focus();
   await expectMarker(initial);
   await next.hover();
   await expectMarker(next, 'data-tab-hover');
   await expect(initial).toHaveAttribute('aria-pressed', 'true');
   await expect(next).toHaveAttribute('aria-pressed', 'false');
-  await expect(services.getByRole('heading', {level: 3})).toHaveText('Uma apresentação que representa seu negócio.');
+  await expect(process.getByRole('heading', {level: 3})).toHaveText('Entender o que precisa funcionar.');
   await expectMarker(initial);
 
   const earlyState = await next.evaluate(async element => {
@@ -92,7 +91,7 @@ test('o realce acompanha o cursor sem selecionar e desliza até a opção clicad
   expect(earlyState.remainingDistance).toBeGreaterThan(2);
   expect(earlyState.rippleOpacity).toBeGreaterThan(0);
   await expect(next).toHaveAttribute('aria-pressed', 'true');
-  await expect(services.getByRole('heading', {level: 3})).toHaveText('As ferramentas conversam. A equipe ganha tempo.');
+  await expect(process.getByRole('heading', {level: 3})).toHaveText('Combinar a entrega antes de construir.');
   await expectMarker(next);
   await page.mouse.move(0, 0);
   await expect.poll(() => group.locator(':scope > [data-tab-hover]').evaluate(element => Number(getComputedStyle(element).opacity))).toBe(0);
@@ -141,9 +140,9 @@ test('o indicador acompanha a escolha quando os botões mudam de linha e tamanho
 
 test('redimensionar durante o deslocamento do foco mantém o realce no novo layout', async ({page}) => {
   await page.goto('/');
-  const group = page.locator('#solucoes').getByRole('group', {name: 'Frentes de trabalho'});
-  const first = group.getByRole('button', {name: 'Sites', exact: true});
-  const last = group.getByRole('button', {name: 'Operação', exact: true});
+  const group = page.locator('#processo').getByRole('group', {name: 'Etapas do projeto'});
+  const first = group.getByRole('button', {name: /Briefing/});
+  const last = group.getByRole('button', {name: /Entrega/});
   const hover = group.locator(':scope > [data-tab-hover]');
   await first.focus();
   await expectMarker(first, 'data-tab-hover');
@@ -186,11 +185,11 @@ for (const width of [390, 1440]) {
 
 test('reduzir movimento durante a troca posiciona o indicador e revela o conteúdo completo', async ({page}) => {
   await page.goto('/');
-  const services = page.locator('#solucoes');
-  const group = services.getByRole('group', {name: 'Frentes de trabalho'});
-  const initial = group.getByRole('button', {name: 'Sites', exact: true});
-  const selected = group.getByRole('button', {name: 'Operação', exact: true});
-  const title = services.getByRole('heading', {level: 3});
+  const process = page.locator('#processo');
+  const group = process.getByRole('group', {name: 'Etapas do projeto'});
+  const initial = group.getByRole('button', {name: /Briefing/});
+  const selected = group.getByRole('button', {name: /Entrega/});
+  const title = process.getByRole('heading', {level: 3});
   await initial.focus();
   await expectMarker(initial);
   await selected.click();
@@ -198,10 +197,10 @@ test('reduzir movimento durante a troca posiciona o indicador e revela o conteú
   await page.emulateMedia({reducedMotion: 'reduce'});
   await expect(page.locator('html')).toHaveAttribute('data-reduced-motion', 'true');
   await expectMarker(selected);
-  await expect(title).toHaveText('Da qualidade do cadastro ao acompanhamento das vendas.');
+  await expect(title).toHaveText('Colocar o trabalho em uso.');
   await expect.poll(() => visualState(title)).toEqual({opacity: 1, displacement: 0});
-  await group.getByRole('button', {name: 'Sistemas', exact: true}).click();
-  await expectMarker(group.getByRole('button', {name: 'Sistemas', exact: true}));
-  await expect(title).toHaveText('Uma ferramenta desenhada para o seu processo.');
+  await group.getByRole('button', {name: /Desenvolvimento/}).click();
+  await expectMarker(group.getByRole('button', {name: /Desenvolvimento/}));
+  await expect(title).toHaveText('Dar forma e testar no caminho.');
   await expect.poll(() => visualState(title)).toEqual({opacity: 1, displacement: 0});
 });

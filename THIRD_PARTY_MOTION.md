@@ -66,6 +66,20 @@ Component references inspected for all eight navigation/selection groups:
 
 Image/font/section updates request [GSAP safe refresh](https://gsap.com/docs/v3/Plugins/ScrollTrigger/static.refresh()/), preserving native smooth anchor navigation when the profile image finishes loading during the scroll. The installed GSAP 3.15 source confirms the delayed refresh waits for `scrollEnd` when scrolling is active.
 
+## Service cards and order journey — 27/10/2026
+
+References inspected for the requested services/workflow redesign:
+
+- [Animated Beam by Dillion Verma / Magic UI on 21st.dev](https://21st.dev/@dillionverma/components/animated-beam): a travelling light indicates a connection between steps.
+- [Card Beam Animation by BL/S® Studio on CodePen](https://codepen.io/blacklead-studio/pen/xbwaqxE): a moving accent follows a drawn path between panels.
+- [Order confirm animation by Aaron Iker on CodePen](https://codepen.io/aaroniker/pen/eYOVrNa): feedback belongs to the order's actual progression and completion.
+
+The public component pages and their published examples were inspected. Embedded CodePen previews presented a browser challenge, so these are motion-pattern references, not a claim of video-frame inspection. No reference source, asset or new runtime dependency is shipped.
+
+The five service illustrations are original inline SVG compositions for MKF: a site, connected records, a task system, a store and a parcel. Their layers respond to hover and keyboard focus with finite transitions. Every service is a separate article; its contact link preserves the chosen service in the existing briefing.
+
+`WorkflowJourney` uses original GSAP code with the existing reducer: a small order packet follows an SVG connection only when an actual adjacent stage transition is recorded. The ticket displays the real local order and execution status. Checkpoints inspect existing rules and data; the technical React Flow map remains available in a modal. Reduced motion removes the travelling packet and transient ticket motion. Business rules, payment simulation, inventory handling and downloadable artifacts are unchanged.
+
 ## AI-generated imagery from the earlier visual pass
 
 - public/assets/ai/hero-aurora.jpg and public/assets/ai/contact-texture.jpg were requested through Pollinations with `model=flux` on 27/10/2026 for MKF Solutions. Exact prompts, seeds, requested sizes and recorded processing are documented in [docs/content/ai-imagery.md](docs/content/ai-imagery.md). The aurora is no longer used in the redesigned hero. The contact texture remains decorative; portfolio evidence and the portrait are real assets.

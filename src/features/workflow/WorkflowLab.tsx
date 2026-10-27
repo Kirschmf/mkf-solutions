@@ -3,9 +3,10 @@ import { createPortal } from 'react-dom';
 import { createWorkflow, workflowReducer } from './workflowReducer';
 import { calculateOrderTotal, money, validateOrder } from './orderRules';
 import { defaultInput, presets } from './presets';
-import { stages, stageTitle } from './stages';
+import { stageTitle } from './stages';
 import WorkflowInspector, { type Inspection } from './WorkflowInspector';
 import WorkflowResult from './WorkflowResult';
+import WorkflowJourney from './WorkflowJourney';
 import LeadRoute from './LeadRoute';
 import type { OrderInput, Stage, WorkflowEvent } from './workflow.types';
 import MotionHeading from '../../components/MotionHeading';
@@ -34,10 +35,7 @@ export default function WorkflowLab(){
   usePanelMotion(routePanels,route,{index:route==='order'?0:1});
   useEffect(()=>{if(route==='lead')setLeadOpened(true);},[route]);
   const [mapOpen,setMapOpen]=useState(false);
-  const [desktop,setDesktop]=useState(()=>typeof window!=='undefined'&&window.matchMedia('(min-width: 1000px)').matches);
   const runSequence=useRef(1);
-  const mapButton=useRef<HTMLButtonElement>(null);
-  useEffect(()=>{const query=window.matchMedia('(min-width: 1000px)');const update=()=>setDesktop(query.matches);query.addEventListener('change',update);return()=>query.removeEventListener('change',update);},[]);
   const emit=(event:Omit<WorkflowEvent,'runId'>)=>dispatch({...event,runId:state.runId} as WorkflowEvent);
   function next(){
     if(state.status==='idle'){emit({type:'START'});return;}
@@ -66,8 +64,7 @@ export default function WorkflowLab(){
   function inspectStage(stage:Stage){setInspection({stage});if(mapOpen)setMapOpen(false);}
   const errors=validateOrder(state.input);
   const inputTotal=calculateOrderTotal(state.input);
-  const completedCount=stages.filter(stage=>state.history.some(entry=>entry.from===stage.id&&entry.to!==stage.id)).length+(state.status==='completed'?1:0);
-  const graph=<Suspense fallback={<p className={styles.loading}>Carregando mapa operacional…</p>}><WorkflowGraph state={state} onInspectStage={inspectStage} onInspectEdge={(source,target)=>setInspection({stage:target,edge:{source,target}})}/></Suspense>;
+  const graph=<Suspense fallback={<p className={styles.loading}>Carregando mapa operacional…</p>}><WorkflowGraph state={state} onInspectStage={inspectStage} onInspectEdge={(source,target)=>{setInspection({stage:target,edge:{source,target}});setMapOpen(false);}}/></Suspense>;
   const execution=(<div className={styles.execution}><div className={styles.executionStatus} aria-live="polite"><span className={`${styles.statusMark} ${state.status==='blocked'||state.status==='failed'?styles.markBlocked:''}`}/><div><strong data-testid="workflow-status">{statusLabels[state.status]}</strong><span>{state.dirty?'Reinicie para aplicar a nova entrada.':stageTitle(state.stage)}</span></div></div><div className={styles.controls}>
           {state.dirty?<button className={styles.primary} type="button" onClick={()=>reset()}>Reiniciar com estes dados</button>:<>
           {(state.status==='idle'||state.status==='running')&&<button type="button" onClick={()=>{setAuto(false);next();}} disabled={auto}>Próximo passo <span aria-hidden="true">→</span></button>}
@@ -76,7 +73,7 @@ export default function WorkflowLab(){
           {!state.registered&&state.status!=='idle'&&state.status!=='cancelled'&&<button className={styles.cancel} type="button" onClick={()=>{setAuto(false);emit({type:'CANCEL'});}}>Cancelar</button>}</>}
         </div></div>);
   const decisions=(<>{state.error&&<p className={styles.errorNotice} role="alert">{state.error}</p>}
-        {!state.dirty&&state.pendingDecision&&<div className={styles.decision} aria-label="Decisão operacional"><div><span className={styles.panelLabel}>SUA DECISÃO</span><h4>{state.pendingDecision==='stock'?'Faltou estoque. Como seguir?':state.pendingDecision==='approval'?'Este pedido precisa de aprovação.':'Simule o resultado do pagamento.'}</h4><p>{state.pendingDecision==='stock'?`${state.order?.quantity} unidades pedidas; ${state.remainingStock} disponíveis. O estoque continua intacto.`:state.pendingDecision==='approval'?`${money(state.order!.totalCents)} supera o limite de R$ 300,00.`:'O modo automático aguarda sua confirmação. Nenhuma transação financeira acontece.'}</p></div><div className={styles.decisionActions}>
+        {!state.dirty&&state.pendingDecision&&<div className={styles.decision} aria-label="Decisão operacional"><div><h4>{state.pendingDecision==='stock'?'Faltou estoque. Como seguir?':state.pendingDecision==='approval'?'Este pedido precisa de aprovação.':'Simule o resultado do pagamento.'}</h4><p>{state.pendingDecision==='stock'?`${state.order?.quantity} unidades pedidas; ${state.remainingStock} disponíveis. O estoque continua intacto.`:state.pendingDecision==='approval'?`${money(state.order!.totalCents)} supera o limite de R$ 300,00.`:'O modo automático aguarda sua confirmação. Nenhuma transação financeira acontece.'}</p></div><div className={styles.decisionActions}>
           {state.pendingDecision==='stock'&&<><button type="button" disabled={state.remainingStock<1} onClick={()=>emit({type:'RESOLVE_STOCK',quantity:state.remainingStock,stock:state.remainingStock} as Omit<WorkflowEvent,'runId'>)}>Reduzir para {state.remainingStock} unidade(s)</button><button className={styles.primary} type="button" onClick={()=>emit({type:'RESOLVE_STOCK',quantity:state.order!.quantity,stock:Math.max(state.order!.quantity,state.remainingStock)+3} as Omit<WorkflowEvent,'runId'>)}>Simular reposição</button></>}
           {state.pendingDecision==='approval'&&<><button type="button" onClick={()=>emit({type:'REJECT_APPROVAL'})}>Recusar aprovação</button><button className={styles.primary} type="button" onClick={()=>emit({type:'APPROVE'})}>Aprovar pedido</button></>}
           {state.pendingDecision==='payment'&&<><button type="button" onClick={()=>emit({type:'PAYMENT',confirmed:false} as Omit<WorkflowEvent,'runId'>)}>Recusar pagamento</button><button className={styles.primary} type="button" onClick={()=>emit({type:'PAYMENT',confirmed:true} as Omit<WorkflowEvent,'runId'>)}>Confirmar pagamento de teste</button></>}
@@ -84,25 +81,23 @@ export default function WorkflowLab(){
         {!state.dirty&&state.status==='failed'&&(state.stage==='register'||state.stage==='payment')&&<div className={styles.recovery}><p>{state.stage==='register'?'O registro não foi criado e nenhuma unidade foi descontada. A correção desliga a falha simulada.':'A recusa preservou o pedido e o estoque. Uma nova tentativa exige nova confirmação.'}</p><button className={styles.primary} type="button" onClick={()=>{setFailRegistration(false);emit({type:'RETRY'});setAuto(true);}}>{state.stage==='register'?'Corrigir falha e tentar novamente':'Tentar pagamento novamente'} <span aria-hidden="true">→</span></button></div>}</>);
   return <section id="automacoes" className={`section ${styles.section}`} aria-labelledby="workflow-heading">
     <div className="container">
-      <div className={styles.heading}><div><p className="eyebrow">Experimente uma operação</p><MotionHeading id="workflow-heading" lines={['Acompanhe o caminho', 'de um pedido.']}/></div><div className={styles.intro} data-motion-group><p data-motion-item>Edite um pedido, acompanhe as regras e decida o próximo passo. Veja o que uma automação faz com cada dado.</p><div className={styles.localBadge} data-motion-item><span aria-hidden="true">◉</span> Demonstração local</div><p className={styles.localNote} data-motion-item>Dados, regras e arquivos funcionam no navegador. Pagamento, ERP e mensagens são demonstrativos.</p></div></div>
+      <div className={styles.heading}><div><p className="eyebrow">Experimente uma operação</p><MotionHeading id="workflow-heading" lines={['Acompanhe o caminho', 'de um pedido.']}/></div><div className={styles.intro} data-motion-group><p data-motion-item>Edite um pedido, acompanhe as regras e decida o próximo passo. Veja o que uma automação faz com cada dado.</p><p className={styles.localNote} data-motion-item>Demonstração local. Dados, regras e arquivos funcionam no navegador; pagamento, ERP e mensagens são demonstrativos.</p></div></div>
       <InteractiveTabs activeKey={route} className={styles.routeTabs} role="tablist" aria-label="Rotina para experimentar" onKeyDown={event=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();const next=event.key==='Home'?'order':event.key==='End'?'lead':route==='order'?'lead':'order';setRoute(next);document.getElementById(`${next}-route-tab`)?.focus();}}}><button type="button" role="tab" id="order-route-tab" aria-controls="order-route" tabIndex={route==='order'?0:-1} aria-selected={route==='order'} onClick={()=>setRoute('order')}>01 <span>Do pedido ao acompanhamento</span><span aria-hidden="true">↗</span></button><button type="button" role="tab" id="lead-route-tab" aria-controls="lead-route" tabIndex={route==='lead'?0:-1} aria-selected={route==='lead'} onClick={()=>setRoute('lead')}>02 <span>Do contato ao briefing</span><span aria-hidden="true">↗</span></button></InteractiveTabs>
       <div ref={routePanels} className={styles.routePanels}>
       {(route==='lead'||leadOpened)&&<div role="tabpanel" id="lead-route" hidden={route!=='lead'} aria-labelledby="lead-route-tab"><LeadRoute/></div>}<div role="tabpanel" id="order-route" hidden={route!=='order'} aria-labelledby="order-route-tab">
-        <div className={styles.benchTop}><div><span className={styles.panelLabel}>CENÁRIO</span><label className={styles.srOnly} htmlFor="workflow-preset">Cenário da demonstração</label><select id="workflow-preset" value={preset} onChange={event=>selectPreset(event.target.value)}>{presets.map(item=><option key={item.id} value={item.id}>{item.label}</option>)}</select></div><p>{presets.find(item=>item.id===preset)?.description}</p><div className={styles.roundLabel}>RODADA {state.runId.replace('rodada-','').padStart(2,'0')}</div></div>
+        <div className={styles.benchTop}><div><label htmlFor="workflow-preset">Experimente com</label><select id="workflow-preset" aria-label="Cenário da demonstração" value={preset} onChange={event=>selectPreset(event.target.value)}>{presets.map(item=><option key={item.id} value={item.id}>{item.label}</option>)}</select></div><p>{presets.find(item=>item.id===preset)?.description}</p><div className={styles.roundLabel}>Rodada {state.runId.replace('rodada-','').padStart(2,'0')}</div></div>
         <div className={styles.bench} data-motion-panel>
-          <div className={styles.editor}><span className={styles.panelLabel}>01 / DADOS DO PEDIDO</span><h3>Seu ponto de partida.</h3>
+          <div className={styles.editor}><h3>Monte seu pedido.</h3><p className={styles.editorIntro}>Mude os dados e veja como a operação responde.</p>
             <div className={styles.fields}><label htmlFor="order-product">Produto<input id="order-product" value={state.input.product} maxLength={120} onChange={event=>changeInput('product',event.target.value)} aria-invalid={!!errors.product} aria-describedby={errors.product?'error-product':undefined}/>{errors.product&&<span id="error-product" className={styles.fieldError}>{errors.product}</span>}</label>
             {([{key:'unitPriceCents',label:'Preço unitário (R$)',money:true},{key:'quantity',label:'Quantidade'},{key:'stock',label:'Estoque disponível'},{key:'shippingCents',label:'Frete (R$)',money:true}] as const).map(field=><label key={field.key} htmlFor={`order-${field.key}`}>{field.label}<input id={`order-${field.key}`} type="number" inputMode={'money' in field?'decimal':'numeric'} min="0" step={'money' in field?'.01':'1'} value={Number.isFinite(state.input[field.key])?state.input[field.key]/('money' in field?100:1):''} onChange={event=>changeInput(field.key,event.target.value)} aria-invalid={!!errors[field.key]} aria-describedby={errors[field.key]?`error-${field.key}`:undefined}/>{errors[field.key]&&<span id={`error-${field.key}`} className={styles.fieldError}>{errors[field.key]}</span>}</label>)}</div>
             <div className={styles.orderTotal}><span>Total com frete</span><strong data-testid="order-total">{money(inputTotal)}</strong><small>{state.input.quantity||0} unidade(s) + frete</small></div>
             <label className={styles.checkbox}><input type="checkbox" checked={failRegistration} onChange={event=>{setFailRegistration(event.target.checked);setAuto(false);if(state.status==='running')emit({type:'PAUSE'});}}/>Simular falha de registro</label>
-            {!desktop&&<div className={styles.mobileExecution}>{execution}{decisions}</div>}
           </div>
-          <div className={styles.mapPanel}><div className={styles.mapHeading}><span className={styles.panelLabel}>02 / FLUXO DA OPERAÇÃO</span><span>{Math.min(completedCount,8)} de 8 etapas</span></div>{desktop?graph:<><ol className={styles.mobileStages}>{stages.map((stage,index)=>{const done=state.history.some(entry=>entry.from===stage.id&&entry.to!==stage.id)||state.status==='completed';return <li key={stage.id}><button type="button" onClick={()=>inspectStage(stage.id)} aria-current={state.stage===stage.id?'step':undefined} className={`${state.stage===stage.id?styles.mobileStageActive:''} ${done?styles.mobileStageDone:''}`}><span>{done?'✓':String(index+1).padStart(2,'0')}</span><strong>{stage.title}</strong><small>{state.stage===stage.id?statusLabels[state.status]:done?'Concluída':'Inspecionar'} →</small></button></li>;})}</ol><button ref={mapButton} className={styles.mapOverview} type="button" onClick={()=>setMapOpen(true)}>Visão geral do mapa <span aria-hidden="true">↗</span></button></>}
-          <div className={styles.mapLegend}><span><i className={styles.currentKey}/>Etapa atual</span><span><i className={styles.doneKey}/>Concluída</span><span>Selecione para inspecionar</span></div></div>
-          <WorkflowInspector state={state} inspection={inspection}/>
+          <div className={styles.journeyColumn}><WorkflowJourney state={state} inspection={inspection.stage} onInspectStage={inspectStage}/><button className={styles.mapOverview} type="button" onClick={()=>setMapOpen(true)}>Visão geral do mapa <span aria-hidden="true">↗</span></button></div>
         </div>
-        {desktop&&execution}
-        {desktop&&decisions}
+        {execution}
+        {decisions}
+        <WorkflowInspector state={state} inspection={inspection}/>
         <WorkflowResult state={state}/>
       </div>
       </div>
