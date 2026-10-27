@@ -3,7 +3,7 @@ import {test, expect} from '@playwright/test';
 test('reduzir movimento durante a inclinação restaura a prévia e interrompe o movimento', async ({page}) => {
   await page.emulateMedia({reducedMotion: 'no-preference'});
   await page.goto('/');
-  const preview = page.locator('#inicio').getByRole('button', {name: 'Explorar Ferranti e Oliveira', exact: true}).locator('../..');
+  const preview = page.locator('#inicio [data-service-summary]');
   await expect(preview).toBeVisible();
   const bounds = await preview.boundingBox();
   expect(bounds).not.toBeNull();

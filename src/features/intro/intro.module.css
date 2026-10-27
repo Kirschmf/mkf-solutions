@@ -187,3 +187,10 @@
   .description { font-size: 12px; }
   .services > button { gap: 10px; padding-inline: 12px; font-size: 11px; }
 }
+.serviceSummary{padding:20px;border:1px solid #ffffff20;background:#172035;}
+.serviceSummary>span{display:block;font-size:11px;color:#a9b6ce;margin-bottom:12px;}
+.serviceSummary h3{font-size:21px;line-height:1.25;font-weight:400;color:#f3eee7;margin-bottom:16px;letter-spacing:-.4px;}
+.serviceSummary ul{padding:0;list-style:none;display:grid;gap:10px;margin:0 0 20px;color:#b8c1d1;font-size:12px;line-height:1.6;}
+.serviceSummary a{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:#e3edff;border-top:1px solid #ffffff20;padding-top:14px;}
+@media(max-width:850px) and (min-width:601px){.serviceSummary{padding:16px}.serviceSummary h3{font-size:17px}.serviceSummary ul{font-size:11px}.serviceSummary a{font-size:11px}.work{bottom:40px}}
+@media(max-width:600px){.serviceSummary{grid-column:1/-1}.serviceSummary h3{font-size:22px}.serviceSummary ul{font-size:13px}.serviceSummary a{font-size:13px}}

@@ -3,7 +3,7 @@ import {ArrowDown, ArrowUpRight, Check} from 'lucide-react';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from '../../app/reveal';
 import {needs} from '../../data/services';
-import projects from '../../data/projects.json';
+
 import {useJourney} from '../../app/JourneyContext';
 import {useMotionPreference} from '../../app/useMotionPreference';
 import type {NeedId} from '../../app/types';
@@ -12,9 +12,9 @@ import styles from './intro.module.css';
 const labels: Record<NeedId, string> = {sites: 'Sites', automations: 'Automações', apps: 'Sistemas', ecommerce: 'E-commerce', operations: 'Operação'};
 
 export default function Hero() {
-  const {need, setNeed, selectProject} = useJourney();
+  const {need, setNeed} = useJourney();
   const service = needs.find(item => item.id === need)!;
-  const project = projects.find(item => item.id === service.projectId)!;
+
   const {reducedMotion} = useMotionPreference();
   const root = useRef<HTMLElement>(null);
   const preview = useRef<HTMLDivElement>(null);
@@ -84,11 +84,6 @@ export default function Hero() {
     };
   }, [reducedMotion]);
 
-  function openProject() {
-    selectProject(project.id);
-    document.getElementById('portfolio')?.scrollIntoView({behavior: reducedMotion ? 'auto' : 'smooth'});
-  }
-
   return <section className={styles.hero} id="inicio" ref={root} aria-labelledby="intro-title">
     <div className={'container ' + styles.stage}>
       <div className={styles.intro} data-hero-copy><span>Desenvolvedor & fundador da MKF</span><span>Da ideia à operação.</span></div>
@@ -105,16 +100,13 @@ export default function Hero() {
         </div>
       </div>
       <div className={styles.work}>
-          <p className={styles.workLabel}>Do meu portfólio<ArrowUpRight size={14}/></p>
-          <div className={styles.preview} ref={preview}>
-            <div className={styles.previewImage}>
-              <button type="button" onClick={openProject} aria-label={'Explorar ' + project.name}>
-                {project.image ? <img key={project.id} src={project.image} alt={'Projeto ' + project.name} width="720" height="450"/> : <span className={styles.unavailable}>Conheça a entrega de {project.name}</span>}
-              </button>
-            </div>
-            <button type="button" className={styles.projectCaption} onClick={openProject}><span><small>{service.kind}</small><strong>{project.name}</strong></span><ArrowUpRight size={18}/></button>
-          </div>
-          <a className={styles.allProjects} href="#portfolio">Ver todos os projetos<ArrowDown size={14}/></a>
+        <p className={styles.workLabel}>Como posso ajudar</p>
+        <div className={styles.serviceSummary} ref={preview} data-service-summary>
+          <span>{service.kind}</span>
+          <h3>{service.title}</h3>
+          <ul>{service.deliverables.slice(0,2).map(item=><li key={item}>{item}</li>)}</ul>
+          <a href="#solucoes">Conhecer esta solução<ArrowDown size={15}/></a>
+        </div>
       </div>
     </div>
 

@@ -3,7 +3,7 @@ test('todas as seções permanecem dentro da tela em celular, tablet e desktop',
  await page.goto('/');
  for(const width of [320,390,768,1440,1920]){
   await page.setViewportSize({width,height:1000});
-  for(const id of ['inicio','solucoes','portfolio','automacoes','sobre','processo','contato']){
+  for(const id of ['inicio','solucoes','automacoes','sobre','processo','contato']){
    await page.locator(`#${id}`).scrollIntoViewIfNeeded();
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`overflow ${id} ${width}`).toBe(true);
   }

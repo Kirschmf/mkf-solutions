@@ -26,14 +26,14 @@ test('clipboard bloqueado oferece texto selecionável sem perder o briefing',asy
  await expect(contact.locator('#brief-fallback')).toHaveValue(/Criar um site institucional/);
  await expect(contact.locator('#brief-fallback')).toBeFocused();
 });
-test('perfil revela evidências, trajetória e formação sem depender do cursor',async({page})=>{
+test('perfil apresenta competências, trajetória e formação sem depender do cursor',async({page})=>{
  await page.goto('/');const profile=page.locator('#sobre');
  await profile.getByRole('tab',{name:'Conectar',exact:true}).click();
  await expect(profile.getByRole('tabpanel')).toContainText(/integra|catálogo|sistemas/i);
  await profile.getByRole('tab',{name:'Conectar',exact:true}).press('ArrowRight');
  await expect(profile.getByRole('tab',{name:'Operar',exact:true})).toHaveAttribute('aria-selected','true');
  await profile.getByRole('button',{name:/Object Edge/}).click();
- await expect(profile.locator('article').filter({hasText:'Specialized'}).first()).toBeVisible();
+ await expect(profile.locator('article').filter({hasText:'Full Stack'}).first()).toBeVisible();
  await profile.getByText('Formação e certificações',{exact:true}).click();
  await expect(profile.locator('details')).toHaveAttribute('open','');
 });

@@ -17,3 +17,5 @@ O perfil tem três perspectivas selecionáveis, capturas reorganizadas com GSAP 
 Conteúdo verificado: 55 registros, com distinção de autoria, colaboração, personalização, operação, protótipo e estudo. A cobertura visual passou de 26 a 31 registros. Os 24 sem artefato visual disponível permanecem identificados; a matriz completa está em docs/content/portfolio-media-matrix.csv.
 
 Acessibilidade inclui teclado, foco, textos legíveis, redução de movimento e alternativas a imagens/WebGL. Dados reais de clientes e resultados comerciais não comprovados não fazem parte da demonstração.
+
+Atualização de 27/10/2026: todos os projetos, cases, capturas e links do portfólio foram removidos a pedido do usuário. A descrição anterior registra o histórico da versão anterior. Permanecem apresentação pessoal, competências, serviços, demonstração genérica de automação, processo e contato.
