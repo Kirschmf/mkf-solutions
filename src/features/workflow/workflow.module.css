@@ -1,11 +1,13 @@
-.section{background:#E9ECE9;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.section{background:linear-gradient(180deg,#E7EBEA 0%,#F1F3F1 100%);border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:relative}
+.section:before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad-accent)}
 .heading{display:grid;grid-template-columns:1.2fr .8fr;gap:70px;align-items:end;margin-bottom:48px}
 .heading h2{font-size:clamp(40px,4.8vw,68px);line-height:1.07;letter-spacing:-2.8px;font-weight:500}
-.heading h2 span{color:var(--blue)}
+.heading h2 span{background:var(--grad-accent);-webkit-background-clip:text;background-clip:text;color:transparent}
 .intro{max-width:425px;justify-self:end}
 .intro>p:first-child{font-size:18px;line-height:1.6;margin-bottom:22px}
 .localBadge{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:600;margin-bottom:6px}
-.localBadge>span{color:var(--blue);font-size:16px}
+.localBadge>span{color:var(--blue);font-size:16px;animation:badgePulse 2.2s ease-in-out infinite}
+@keyframes badgePulse{0%,100%{opacity:1}50%{opacity:.45}}
 .localNote{font-size:13px!important;color:var(--muted);line-height:1.55!important}
 .routeTabs{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #BCC3CA;border-bottom:1px solid #BCC3CA;margin-bottom:30px}
 .routeTabs button{display:flex;gap:17px;align-items:center;padding:21px 22px;border:0;color:var(--muted);font-size:13px;text-align:left;min-height:68px}
@@ -20,7 +22,7 @@
 .benchTop select{font-size:14px;font-weight:500;border:0;border-bottom:1px solid #A6AFBA;background:var(--white);padding:7px 24px 7px 0;max-width:240px}
 .benchTop>p{font-size:13px;color:var(--muted);line-height:1.5;max-width:390px}
 .roundLabel{font-family:var(--font-mono,monospace);font-size:13px;color:var(--muted);margin-left:auto;white-space:nowrap}
-.bench{display:grid;grid-template-columns:235px minmax(0,1fr) 255px;border:1px solid var(--line);background:#F9FAF8}
+.bench{display:grid;grid-template-columns:235px minmax(0,1fr) 255px;border:1px solid var(--line);background:#F9FAF8;box-shadow:var(--shadow-card)}
 .editor{padding:25px 22px;background:var(--white);border-right:1px solid var(--line);min-width:0}
 .editor h3{font-size:21px;font-weight:500;letter-spacing:-.6px;line-height:1.2;margin:10px 0 22px}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:15px 12px}

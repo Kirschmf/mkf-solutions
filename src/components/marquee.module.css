@@ -1,0 +1,8 @@
+.strip{background:var(--ink);color:var(--white);overflow:hidden;user-select:none}
+.track{display:flex;width:max-content;animation:marquee 30s linear infinite}
+.strip:hover .track{animation-play-state:paused}
+.item{display:inline-flex;align-items:center;gap:26px;padding:17px 0;font-family:var(--font-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;color:#C9D2E8}
+.item:nth-child(even){color:var(--white)}
+.dot{width:7px;height:7px;background:var(--grad-accent);transform:rotate(45deg);display:inline-block;margin-right:26px;flex-shrink:0}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@media(max-width:600px){.item{font-size:11px;padding:14px 0}.dot{width:6px;height:6px;margin-right:18px}.item{gap:18px}}

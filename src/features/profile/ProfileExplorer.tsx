@@ -47,7 +47,7 @@ export default function ProfileExplorer({ onOpenProject }: Props) {
 
   return <section id="sobre" className={`section ${styles.profile}`} aria-labelledby="profile-title">
     <div className={`container ${styles.layout}`}>
-      <div className={styles.identity}>
+      <div className={styles.identity} data-reveal>
         <figure className={styles.portrait}>
           <img src="/assets/matheus-kirsch.png" alt="Matheus Kirsch, desenvolvedor e fundador da MKF Solutions" loading="lazy" width="640" height="800" />
           <figcaption>Matheus Kirsch <span>Canoas / Porto Alegre, RS</span></figcaption>
@@ -57,7 +57,7 @@ export default function ProfileExplorer({ onOpenProject }: Props) {
           <a href="https://github.com/Kirschmf" target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight size={16} /></a>
         </div>
       </div>
-      <div className={styles.introduction}>
+      <div className={styles.introduction} data-reveal>
         <p className="eyebrow">Quem desenvolve o seu projeto</p>
         <h2 id="profile-title">Sou Matheus.<br />Desenvolvo com<br />visão de operação.</h2>
         <p className={styles.lead}>Full Stack, automação e comércio digital. Experiência técnica e contato direto com o dia a dia de quem usa.</p>

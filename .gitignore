@@ -7,3 +7,5 @@ qa-root/
 .superpowers/
 test-results/
 playwright-report/
+
+.vercel
