@@ -43,9 +43,15 @@ References supplied by the user and inspected as video frames:
 
 - [Portfolio Animation: Showcase Your Creativity in Motion](https://dribbble.com/shots/25949833-Portfolio-Animation-Showcase-Your-Creativity-in-Motion), Mir Mamunur Rashid: central visual, navy palette and staged composition changes.
 - [Personal Portfolio Website — Animations](https://dribbble.com/shots/26995447-Personal-Portfolio-Website-Animations), Dymas Alfin / Mikan Team: personal name, portrait and sequential entrance.
-- [Luxury Portfolio Animation](https://dribbble.com/shots/27214848-Luxury-Portfolio-Animation): editorial serif typography, layered imagery and different scroll speeds.
+- [Luxury Portfolio Animation](https://dribbble.com/shots/27214848-Luxury-Portfolio-Animation), Andrej Krajčir: editorial serif typography, layered imagery and different scroll speeds.
 
 MKF implementation uses its own GSAP timeline, scroll behavior, supplied portrait and project screenshots. Reference images/videos are research material only and are not distributed in the application. The transparent portrait is a local segmentation of the original supplied photo; no generated face or clothing. Instrument Serif is hosted locally from [Google Fonts](https://github.com/google/fonts/tree/main/ofl/instrumentserif), with its OFL in `public/fonts/Instrument-Serif-OFL.txt`.
+
+## Motion beyond the hero — 27/10/2026
+
+The same three references were revisited for the remaining sections. The first reference informed the order of panel and text entrances (3.8–9.5 s). The personal portfolio informed service rows, staggered experience entries and the closing composition (8.5–16.25 s). The luxury portfolio informed restrained image layering (3–5 and 9.8–11.8 s).
+
+The MKF implementation is original GSAP/ScrollTrigger code: masked heading lines, sequential control groups, image reveal and 24 px desktop parallax, local selection transitions, FAQ height changes and directional briefing steps. No reference source code, video or imagery is shipped. Existing hero behavior is preserved; the later removal of all project showcases and assets is preserved as well. Research files and QA captures stay outside the production bundle.
 
 ## AI-generated imagery from the earlier visual pass
 

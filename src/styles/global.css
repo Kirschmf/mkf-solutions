@@ -38,3 +38,10 @@ html[data-reduced-motion=true] *,html[data-reduced-motion=true] *:before,html[da
 @media(max-width:900px){.container{width:calc(100% - 48px)}.section{padding:85px 0}.section-top{gap:30px}.section-title{letter-spacing:-2px}.section-top>p{font-size:15px;max-width:310px}}
 @media(max-width:600px){.container{width:calc(100% - 36px)}.section{padding:68px 0}.section-top{display:block;margin-bottom:32px}.section-title{font-size:42px;letter-spacing:-1.8px}.section-top>p{margin-top:22px;max-width:100%}.eyebrow{margin-bottom:18px}.button{gap:17px;padding:11px 17px}.text-action{font-size:14px}input,textarea,select{font-size:16px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.section .motion-heading{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:-.025em;line-height:1.06}
+.motion-line{display:block;overflow:hidden;padding:0 .035em .13em;margin:0 -.035em -.13em}
+[data-motion-line]{display:block}
+[data-motion-rule]{display:block;transform-origin:left center}
+[data-motion-image]{overflow:hidden}
+html[data-reduced-motion=true] [data-motion-heading],html[data-reduced-motion=true] [data-motion-panel],html[data-reduced-motion=true] [data-motion-image]{clip-path:none!important}
