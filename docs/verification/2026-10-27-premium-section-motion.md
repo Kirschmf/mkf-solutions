@@ -40,4 +40,14 @@ Validação no build de produção servido em `http://127.0.0.1:5178`:
 - Revisão independente visual em 390/1440 px: três ciclos pelo rodapé e três pela preferência do sistema, em perfil/processo, mantiveram as sete seções e zero erros. Foco antecipado na CTA e redução durante máscara de imagem aprovados. Frames confirmaram movimento ativo e conclusão limpa.
 - Revisão independente de código e reteste do retrato em 1440 → 600 → 1440 → redução: escala final 1, parallax apenas desktop, estilos limpos em redução e zero erros de página. Sem achados pendentes.
 
-Publicação e conferência no domínio público são realizadas após integrar esta árvore validada.
+## Publicação e verificação pública
+
+Implementação integrada por fast-forward em `main` no commit `fa2d530` e enviada a `origin/main`. A Vercel concluiu a publicação Git com status Ready/success, deployment `dpl_GfkbcDdm8nqeXEBBcdwcu7inNLSD`, em `https://mkf-solutions.vercel.app`.
+
+- `npx playwright test --config qa/production.config.ts tests/e2e/premium-motion.spec.ts tests/e2e/no-portfolio.spec.ts tests/e2e/brief-keyboard.spec.ts tests/e2e/profile-contact.spec.ts tests/e2e/responsive.spec.ts tests/e2e/motion.spec.ts --output=qa/premium-production-e2e`: 14 testes passaram em 29,1 s.
+- Caso adicional `workflow.spec.ts --grep 'insufficient stock'` com a mesma configuração pública: 1 teste passou em 6,7 s; clique mobile, reposição, pagamento e abertura do mapa funcionaram.
+- Conferência renderizada pública em 390 e 1440 px: oito headings animados, Instrument Serif carregada, transformação intermediária observada durante a entrada e `transform:none` ao concluir. Sem overflow e sem erros de página.
+- Retrato público: escala final 1 nas duas larguras; parallax ausente no celular e ativo na camada externa no desktop. Máscara totalmente limpa após entrada. Asset servido: `/assets/index-C3HOsRiO.js`.
+- Evidências: `qa/premium-public-report.json`, `qa/premium-public-390-profile.png`, `qa/premium-public-1440-profile.png`, `qa/premium-production-e2e/` e `qa/premium-production-stock/`.
+
+O registro final é uma alteração apenas documental sobre essa mesma árvore de aplicação já conferida.

@@ -76,4 +76,4 @@
 - [x] Cobrir troca rápida de abas/processo, FAQ e conteúdo fechado, briefing preenchido e teclado durante entrada; testes focam comportamento observável.
 - [x] Build, tipos, unidade e navegação completa; capturas nos sete viewports; revisar composição e erros de página.
 - [x] Revisão independente de código/movimento, corrigir achados e verificar novamente os pontos alterados.
-- [ ] Atualizar documentação, commit, integrar e publicar pelo Git na Vercel conforme autorização persistente; conferir commit, assets e fluxos no domínio público.
+- [x] Atualizar documentação, commit, integrar e publicar pelo Git na Vercel conforme autorização persistente; conferir commit, assets e fluxos no domínio público.
