@@ -2,9 +2,11 @@
 
 Refatoração de 26/10/2026. Identidade: papel #F4F5F2, grafite #17191D e azul #2548F4. Instrument Sans e IBM Plex Mono hospedadas localmente, com licenças em public/fonts.
 
-Rodada visual de 27/10/2026: abertura, navegação e contato escuros; fundos decorativos gerados por IA; acentos azul, ciano e violeta; faixa de serviços em gradiente; mapa operacional escuro. Entrada do hero, parallax, resposta da prévia ao cursor e revelações de scroll respeitam movimento reduzido. Superfícies claras do formulário e dos nós mantêm texto grafite. Procedência dos fundos em `docs/content/ai-imagery.md`.
+Rodada visual de 27/10/2026: navegação e contato escuros; faixa de serviços em gradiente; mapa operacional escuro. Superfícies claras do formulário e dos nós mantêm texto grafite. Procedência das imagens decorativas da rodada inicial em `docs/content/ai-imagery.md`.
 
-A abertura apresenta o serviço de forma concreta e permite escolher uma necessidade. A seleção sincroniza soluções e briefing. O retrato é real, retangular e integrado à apresentação; esfera, partículas e fundos ambientais foram removidos.
+A abertura foi redesenhada após o feedback de 27/10 e três referências Dribbble fornecidas pelo usuário. Retrato real recortado ao centro, nome em Instrument Serif, base navy #0D101D e texto #F3EEE7. Textos laterais curtos e um projeto real completam a composição. O fundo anterior de ondas foi substituído por luz azul discreta em CSS. Nenhuma mídia das referências foi incorporada ao site.
+
+O nome entra por máscara, seguido pelo retrato e pelo conteúdo lateral. No desktop, nome e retrato se deslocam em ritmos diferentes com o scroll, sem prender a rolagem; a prévia responde ao cursor. Tudo é descartado ao ativar redução de movimento. Mobile empilha retrato, apresentação e prévia sem sobreposição. As cinco necessidades ficam numa faixa compacta e sincronizam prévia, soluções e briefing. A prévia abre o case correspondente no portfólio. Foto recortada com alpha em WebP de 68 KB; original preservado.
 
 O portfólio usa nove planos reutilizáveis Three.js para apresentar 55 projetos/entregas/estudos. Há arraste, teclado, reprodução interrompível, catálogo HTML e cases com URL própria. Mobile e ausência de WebGL usam cartões HTML em perspectiva. O comportamento foi estudado na Truth Commerce, no Arc Flow do 21st e em exemplos CodePen, com implementação própria.
 

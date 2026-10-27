@@ -37,9 +37,19 @@ The portfolio geometry/navigation and workflow state engine were implemented for
 
 Workflow connection references: https://reactflow.dev/examples/edges/animating-edges and https://magicui.design/docs/components/animated-beam. Connections animate actual transitions in the local demonstration.
 
-## AI-generated imagery
+## Hero editorial references — 27/10/2026
 
-- public/assets/ai/hero-aurora.jpg and public/assets/ai/contact-texture.jpg were requested through Pollinations with `model=flux` on 27/10/2026 for MKF Solutions. Exact prompts, seeds, requested sizes and recorded processing are documented in [docs/content/ai-imagery.md](docs/content/ai-imagery.md). These are decorative backgrounds; portfolio evidence and the portrait remain separate real assets.
+References supplied by the user and inspected as video frames:
+
+- [Portfolio Animation: Showcase Your Creativity in Motion](https://dribbble.com/shots/25949833-Portfolio-Animation-Showcase-Your-Creativity-in-Motion), Mir Mamunur Rashid: central visual, navy palette and staged composition changes.
+- [Personal Portfolio Website — Animations](https://dribbble.com/shots/26995447-Personal-Portfolio-Website-Animations), Dymas Alfin / Mikan Team: personal name, portrait and sequential entrance.
+- [Luxury Portfolio Animation](https://dribbble.com/shots/27214848-Luxury-Portfolio-Animation): editorial serif typography, layered imagery and different scroll speeds.
+
+MKF implementation uses its own GSAP timeline, scroll behavior, supplied portrait and project screenshots. Reference images/videos are research material only and are not distributed in the application. The transparent portrait is a local segmentation of the original supplied photo; no generated face or clothing. Instrument Serif is hosted locally from [Google Fonts](https://github.com/google/fonts/tree/main/ofl/instrumentserif), with its OFL in `public/fonts/Instrument-Serif-OFL.txt`.
+
+## AI-generated imagery from the earlier visual pass
+
+- public/assets/ai/hero-aurora.jpg and public/assets/ai/contact-texture.jpg were requested through Pollinations with `model=flux` on 27/10/2026 for MKF Solutions. Exact prompts, seeds, requested sizes and recorded processing are documented in [docs/content/ai-imagery.md](docs/content/ai-imagery.md). The aurora is no longer used in the redesigned hero. The contact texture remains decorative; portfolio evidence and the portrait are real assets.
 
 ## Runtime libraries and fonts
 
