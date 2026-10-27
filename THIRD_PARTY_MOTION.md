@@ -37,6 +37,10 @@ The portfolio geometry/navigation and workflow state engine were implemented for
 
 Workflow connection references: https://reactflow.dev/examples/edges/animating-edges and https://magicui.design/docs/components/animated-beam. Connections animate actual transitions in the local demonstration.
 
+## AI-generated imagery
+
+- public/assets/ai/hero-aurora.jpg and public/assets/ai/contact-texture.jpg were requested through Pollinations with `model=flux` on 27/10/2026 for MKF Solutions. Exact prompts, seeds, requested sizes and recorded processing are documented in [docs/content/ai-imagery.md](docs/content/ai-imagery.md). These are decorative backgrounds; portfolio evidence and the portrait remain separate real assets.
+
 ## Runtime libraries and fonts
 
 React, React DOM, Three.js, Motion, Lucide and React Flow retain their own licenses. GSAP uses its own license. Collected package notices are distributed in public/licenses/third-party-notices.txt. Font licenses are in public/fonts/*-OFL.txt.

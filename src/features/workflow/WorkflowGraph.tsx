@@ -38,7 +38,7 @@ function DataEdge(props:EdgeProps<TransferEdge>){
     return()=>{tween.kill();gsap.killTweensOf(card);};
   },[active,props.data?.transition,path,reducedMotion]);
   return <>
-    <BaseEdge id={props.id} path={path} markerEnd={props.markerEnd} style={{stroke:active?'#2548F4':'#B7BEC9',strokeWidth:active?2.5:1.5}} interactionWidth={24}/>
+    <BaseEdge id={props.id} path={path} markerEnd={props.markerEnd} style={{stroke:active?'#22D6EE':'#7A8BAA',strokeWidth:active?2.5:1.5}} interactionWidth={24}/>
     <path ref={pathRef} d={path} fill="none" stroke="none" aria-hidden="true"/>
     {active&&<g ref={cardRef} pointerEvents="none" opacity="0" aria-hidden="true"><rect x="-32" y="-14" width="64" height="28" rx="4" fill="#17191D"/><text textAnchor="middle" y="5" fill="#fff" style={{fontSize:12,fontFamily:'inherit'}}>pedido</text></g>}
   </>;
@@ -53,7 +53,7 @@ export default function WorkflowGraph({state,onInspectStage,onInspectEdge}:{stat
   const edges=useMemo<TransferEdge[]>(()=>stages.slice(0,-1).map((stage,index)=>{
     const target=stages[index+1].id,last=state.history.at(-1);
     const active=last?.from===stage.id&&last?.to===target;
-    return {id:`${stage.id}-${target}`,source:stage.id,target,type:'transfer',data:{active,transition:last?.sequence??0,value:state.order?.product??state.input.product},markerEnd:{type:MarkerType.ArrowClosed,color:active?'#2548F4':'#B7BEC9',width:14,height:14},ariaLabel:`Dados de ${stage.short} para ${stages[index+1].short}`,ariaRole:'button',domAttributes:{onKeyDown:event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();onInspectEdge(stage.id,target);}}},focusable:true};
+    return {id:`${stage.id}-${target}`,source:stage.id,target,type:'transfer',data:{active,transition:last?.sequence??0,value:state.order?.product??state.input.product},markerEnd:{type:MarkerType.ArrowClosed,color:active?'#22D6EE':'#7A8BAA',width:14,height:14},ariaLabel:`Dados de ${stage.short} para ${stages[index+1].short}`,ariaRole:'button',domAttributes:{onKeyDown:event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();onInspectEdge(stage.id,target);}}},focusable:true};
   }),[state]);
   return <div className={styles.graphCanvas} data-testid="workflow-map"><ReactFlow nodes={nodes} edges={edges} nodeTypes={nodeTypes} edgeTypes={edgeTypes} fitView fitViewOptions={{padding:.08}} minZoom={.35} maxZoom={1.5} preventScrolling={false} zoomOnScroll={false} nodesDraggable={false} nodesConnectable={false} onNodeClick={(_,node)=>onInspectStage(node.id as Stage)} onEdgeClick={(_,edge)=>onInspectEdge(edge.source as Stage,edge.target as Stage)} proOptions={{hideAttribution:false}}><Background color="#C9CED5" gap={24} size={1}/><Controls showInteractive={false}/></ReactFlow></div>;
 }
