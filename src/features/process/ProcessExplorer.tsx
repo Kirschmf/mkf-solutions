@@ -2,6 +2,7 @@ import {useRef,useState} from 'react';
 import {ArrowRight,Check} from 'lucide-react';
 import {usePanelMotion} from '../../app/usePanelMotion';
 import MotionHeading from '../../components/MotionHeading';
+import InteractiveTabs from '../../components/InteractiveTabs';
 import styles from './process.module.css';
 const stages=[
  {name:'Briefing',title:'Entender o que precisa funcionar.',description:'Conversamos sobre seu negócio, as pessoas que usam o processo e a entrega que você precisa. Exemplos e materiais existentes ajudam a tornar o objetivo concreto.',result:'Um resumo do problema, do público e das prioridades.',client:'Você traz o contexto e os acessos que fizerem sentido para a avaliação.'},
@@ -14,7 +15,7 @@ export default function ProcessExplorer(){
  const [active,setActive]=useState(0);
  const stage=stages[active];
  const panel=useRef<HTMLDivElement>(null);
- usePanelMotion(panel,active);
+ usePanelMotion(panel,active,{index:active});
 
  return <section className={`section ${styles.section}`} id="processo">
   <div className="container">
@@ -25,14 +26,14 @@ export default function ProcessExplorer(){
     </div>
     <p data-motion-panel>Percorra as etapas para ver o que produzimos e como você participa.</p>
    </div>
-   <div className={styles.steps} role="group" aria-label="Etapas do projeto" data-motion-group>
+   <InteractiveTabs activeKey={active} className={styles.steps} role="group" aria-label="Etapas do projeto" data-motion-group>
     {stages.map((s,i)=><button key={s.name} className={i===active?styles.active:''} aria-pressed={i===active} onClick={()=>setActive(i)} data-motion-item>
      <span>{String(i+1).padStart(2,'0')}</span>{s.name}<ArrowRight size={18}/>
     </button>)}
     <span className={styles.progressTrack} aria-hidden="true" data-motion-rule>
      <span className={styles.progress} style={{transform:`scaleX(${(active+1)/stages.length})`}}/>
     </span>
-   </div>
+   </InteractiveTabs>
    <div data-motion-panel>
     <div className={styles.detail} aria-live="polite" ref={panel}>
      <div>

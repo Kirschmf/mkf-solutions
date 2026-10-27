@@ -4,13 +4,14 @@ import {needs,scopeNotes} from '../../data/services';
 import {useJourney} from '../../app/JourneyContext';
 import {usePanelMotion} from '../../app/usePanelMotion';
 import MotionHeading from '../../components/MotionHeading';
+import InteractiveTabs from '../../components/InteractiveTabs';
 import styles from './services.module.css';
 
 export default function ServiceExplorer(){
  const {need,setNeed}=useJourney();
  const service=needs.find(n=>n.id===need)!;
  const panel=useRef<HTMLDivElement>(null);
- usePanelMotion(panel,need);
+ usePanelMotion(panel,need,{index:needs.findIndex(n=>n.id===need)});
 
  return <section className={`section ${styles.section}`} id="solucoes">
   <div className="container">
@@ -22,12 +23,12 @@ export default function ServiceExplorer(){
     <p data-motion-panel>Escolha uma frente de trabalho para conhecer os serviços e o escopo de cada solução.</p>
    </div>
    <div className={styles.explorer}>
-    <div className={styles.options} role="group" aria-label="Frentes de trabalho" data-motion-group>
+    <InteractiveTabs activeKey={need} className={styles.options} role="group" aria-label="Frentes de trabalho" data-motion-group>
      {needs.map(n=><button key={n.id} aria-pressed={n.id===need} onClick={()=>setNeed(n.id)} className={n.id===need?styles.active:''} data-motion-item>
       {n.label}<ArrowRight size={21}/>
       <span className={styles.optionRule} data-motion-rule aria-hidden="true"/>
      </button>)}
-    </div>
+    </InteractiveTabs>
     <div className={styles.content} data-motion-panel>
      <div className={styles.description} ref={panel}>
       <span>{service.kind}</span>

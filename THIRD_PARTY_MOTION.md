@@ -53,6 +53,19 @@ The same three references were revisited for the remaining sections. The first r
 
 The MKF implementation is original GSAP/ScrollTrigger code: masked heading lines, sequential control groups, image reveal and 24 px desktop parallax, local selection transitions, FAQ height changes and directional briefing steps. No reference source code, video or imagery is shipped. Existing hero behavior is preserved; the later removal of all project showcases and assets is preserved as well. Research files and QA captures stay outside the production bundle.
 
+## Interactive selectors — 27/10/2026
+
+Component references inspected for all eight navigation/selection groups:
+
+- [Animate UI Tabs](https://animate-ui.com/docs/primitives/animate-ui/tabs): travelling selection highlight, directional panels and keyboard behavior.
+- [Aceternity Animated Tabs](https://ui.aceternity.com/components/tabs): shared selection feedback and content transitions.
+- [Magic UI Ripple Button](https://magicui.design/docs/components/ripple-button): click-local ripple feedback.
+- [Motion shared layout example](https://motion.dev/examples/react-shared-layout-animation): moving active underline.
+
+`InteractiveTabs` is original MKF code using the existing GSAP runtime; no reference implementation is copied and no new dependency is installed. It preserves direct native controls, ARIA and the existing state engines. Decorative active/hover/ripple layers have no pointer events. Selection geometry is recalculated on resize, font readiness and mobile-menu visibility. Reduced motion snaps selection immediately and removes transient effects. Existing panel motion now uses selection order for direction and excludes hidden workflow panels.
+
+Image/font/section updates request [GSAP safe refresh](https://gsap.com/docs/v3/Plugins/ScrollTrigger/static.refresh()/), preserving native smooth anchor navigation when the profile image finishes loading during the scroll. The installed GSAP 3.15 source confirms the delayed refresh waits for `scrollEnd` when scrolling is active.
+
 ## AI-generated imagery from the earlier visual pass
 
 - public/assets/ai/hero-aurora.jpg and public/assets/ai/contact-texture.jpg were requested through Pollinations with `model=flux` on 27/10/2026 for MKF Solutions. Exact prompts, seeds, requested sizes and recorded processing are documented in [docs/content/ai-imagery.md](docs/content/ai-imagery.md). The aurora is no longer used in the redesigned hero. The contact texture remains decorative; portfolio evidence and the portrait are real assets.

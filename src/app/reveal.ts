@@ -110,7 +110,8 @@ export function initScrollReveal(reducedMotion: boolean) {
     if (disposed || refreshFrame) return;
     refreshFrame = requestAnimationFrame(() => {
       refreshFrame = 0;
-      if (!disposed) ScrollTrigger.refresh();
+      // Image loads must not interrupt a native smooth-scroll to an anchor.
+      if (!disposed) ScrollTrigger.refresh(true);
     });
   }
 

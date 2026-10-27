@@ -6,6 +6,8 @@ import {needs} from '../../data/services';
 
 import {useJourney} from '../../app/JourneyContext';
 import {useMotionPreference} from '../../app/useMotionPreference';
+import {usePanelMotion} from '../../app/usePanelMotion';
+import InteractiveTabs from '../../components/InteractiveTabs';
 import type {NeedId} from '../../app/types';
 import styles from './intro.module.css';
 
@@ -18,6 +20,7 @@ export default function Hero() {
   const {reducedMotion} = useMotionPreference();
   const root = useRef<HTMLElement>(null);
   const preview = useRef<HTMLDivElement>(null);
+  usePanelMotion(preview, need, {index: needs.findIndex(item => item.id === need)});
 
   useEffect(() => {
     if (reducedMotion) return;
@@ -51,14 +54,6 @@ export default function Hero() {
     }, root);
     return () => context.revert();
   }, [reducedMotion]);
-
-  useEffect(() => {
-    if (reducedMotion) return;
-    const context = gsap.context(() => {
-      gsap.fromTo(preview.current, {opacity: .4, y: 8}, {opacity: 1, y: 0, duration: .3, ease: 'power2.out'});
-    });
-    return () => context.revert();
-  }, [need, reducedMotion]);
 
   useEffect(() => {
     const element = preview.current;
@@ -110,13 +105,13 @@ export default function Hero() {
       </div>
     </div>
 
-    <div className={'container ' + styles.services} role="group" aria-label="O que você quer desenvolver?">
+    <InteractiveTabs activeKey={need} className={'container ' + styles.services} role="group" aria-label="O que você quer desenvolver?">
       <p className={styles.servicePrompt}>O que vamos criar?</p>
       {needs.map(item => {
         return <button type="button" key={item.id} aria-label={item.intent} aria-pressed={need === item.id} onClick={() => setNeed(item.id)} className={need === item.id ? styles.active : ''}>
           <span>{labels[item.id]}</span>{need === item.id ? <Check size={14}/> : <ArrowUpRight size={14}/>}
         </button>;
       })}
-    </div>
+    </InteractiveTabs>
   </section>;
 }

@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { ArrowUpRight, ChevronDown } from 'lucide-react';
 import { MotionHeading } from '../../components/MotionHeading';
+import InteractiveTabs from '../../components/InteractiveTabs';
 import { usePanelMotion } from '../../app/usePanelMotion';
 import { ScrollTrigger } from '../../app/reveal';
 import { perspectives, career, credentials, type PerspectiveId } from '../../data/profile';
@@ -14,9 +15,10 @@ export default function ProfileExplorer() {
   const perspectiveContent = useRef<HTMLDivElement>(null);
   const activitiesContent = useRef<HTMLUListElement>(null);
   const careerContent = useRef<HTMLDivElement>(null);
-  usePanelMotion(perspectiveContent, perspectiveId);
-  usePanelMotion(activitiesContent, perspectiveId);
-  usePanelMotion(careerContent, careerId);
+  const perspectiveIndex = perspectives.findIndex(item => item.id === perspectiveId);
+  usePanelMotion(perspectiveContent, perspectiveId, { index: perspectiveIndex });
+  usePanelMotion(activitiesContent, perspectiveId, { index: perspectiveIndex });
+  usePanelMotion(careerContent, careerId, { index: career.findIndex(item => item.id === careerId) });
 
   return <section id="sobre" className={`section ${styles.profile}`} aria-labelledby="profile-title">
     <div className={`container ${styles.layout}`}>
@@ -38,7 +40,7 @@ export default function ProfileExplorer() {
         <p className="eyebrow" data-motion-item>Quem desenvolve o seu projeto</p>
         <MotionHeading id="profile-title" lines={['Sou Matheus.', 'Desenvolvo com', 'visão de operação.']} />
         <p className={styles.lead} data-motion-item>Full Stack, automação e comércio digital. Experiência técnica e contato direto com o dia a dia de quem usa.</p>
-        <div className={styles.tabs} role="tablist" aria-label="Perspectivas da experiência" data-motion-item>
+        <InteractiveTabs activeKey={perspectiveId} variant="underline" className={styles.tabs} role="tablist" aria-label="Perspectivas da experiência" data-motion-item>
           {perspectives.map(item => <button key={item.id} type="button" role="tab" id={`perspective-${item.id}`} aria-controls="perspective-panel" aria-selected={item.id === perspectiveId} tabIndex={item.id === perspectiveId ? 0 : -1} onClick={() => setPerspectiveId(item.id)} onKeyDown={event => {
             if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
             event.preventDefault();
@@ -47,7 +49,7 @@ export default function ProfileExplorer() {
             setPerspectiveId(perspectives[next].id);
             document.getElementById(`perspective-${perspectives[next].id}`)?.focus();
           }}>{item.label}</button>)}
-        </div>
+        </InteractiveTabs>
         <div role="tabpanel" id="perspective-panel" aria-labelledby={`perspective-${perspectiveId}`} className={styles.perspective} data-motion-panel>
           <div ref={perspectiveContent}>
             <h3>{perspective.title}</h3><p>{perspective.description}</p>
@@ -66,9 +68,9 @@ export default function ProfileExplorer() {
       <div className={styles.trajectory}>
         <div className={styles.trajectoryTitle}><p className="eyebrow">Trajetória</p><MotionHeading as="h3" lines={['Experiências que', 'se conectam.']} /></div>
         <div className={styles.history}>
-          <div className={styles.timeline} role="group" aria-label="Momentos da trajetória" data-motion-group>
+          <InteractiveTabs activeKey={careerId} className={styles.timeline} role="group" aria-label="Momentos da trajetória" data-motion-group>
             {career.map(item => <button type="button" key={item.id} aria-pressed={item.id === careerId} onClick={() => setCareerId(item.id)} data-motion-item><span>{item.shortPeriod}</span><strong>{item.company}</strong></button>)}
-          </div>
+          </InteractiveTabs>
           <article className={styles.careerPanel} aria-live="polite" data-motion-panel><div ref={careerContent} className={styles.careerContent}><span>{moment.period}</span><h4>{moment.role}</h4><p>{moment.description}</p><p className={styles.relation}>{moment.relation}</p></div></article>
         </div>
       </div>

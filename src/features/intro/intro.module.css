@@ -102,13 +102,13 @@
 .allProjects { display: flex; justify-content: space-between; align-items: center; padding: 15px 0 0; font-size: 11px; color: #aeb7c9; }
 .allProjects:hover { color: #fff; }
 .unavailable { display: grid; place-items: center; height: 100%; padding: 20px; color: #e0e8f8; font-size: 15px; }
-.services { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #ffffff20; min-height: 85px; padding-block: 17px 20px; }
+.services { --tab-radius:25px; position: relative; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #ffffff20; min-height: 85px; padding-block: 17px 20px; }
 .servicePrompt { color: #a3acbf; font-size: 12px; margin-right: auto; white-space: nowrap; }
 .services > button { display: flex; align-items: center; justify-content: center; gap: 25px; padding: 9px 15px; min-height: 43px; border: 1px solid transparent; border-radius: 25px; font-size: 13px; color: #b5bed0; white-space: nowrap; transition: color .2s, background .2s, border-color .2s; }
 .services > button:hover { color: #fff; background: #ffffff09; }
-.services > button.active { border-color: #7c9fe0; color: #e3edff; background: #24477933; }
+.services > button.active { border-color: #7c9fe0; color: #f3eee7; }
 .services > button > svg { opacity: .65; }
-.services > button.active > svg { opacity: 1; color: #9cbeff; }
+.services > button.active > svg { opacity: 1; color: #f3eee7; }
 .hero :focus-visible { outline-color: #a2c0ff; }
 @media (min-width: 1600px) {
   .stage { height: 665px; }

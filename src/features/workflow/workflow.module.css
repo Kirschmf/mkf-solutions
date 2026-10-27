@@ -17,8 +17,10 @@
 .routeTabs button>span:first-child{font-size:16px;color:var(--workflow-text);font-weight:500}
 .routeTabs button>span:last-child{margin-left:auto;font-size:20px}
 .routeTabs button+button{border-left:1px solid var(--workflow-line)}
-.routeTabs button[aria-selected=true]{background:var(--workflow-primary);color:#DCEAFF}
+.routeTabs button[aria-selected=true]{color:#FFFFFF}
 .routeTabs button[aria-selected=true]>span{color:#FFFFFF}
+.routeTabs{--tab-radius:0px}
+.routePanels{min-width:0}
 .benchTop{display:flex;align-items:center;gap:25px;padding:18px 22px;background:var(--workflow-surface);border:1px solid var(--workflow-line);border-bottom:0;min-height:85px}
 .benchTop>div:first-child{display:flex;align-items:center;gap:14px;flex-shrink:0}
 .panelLabel{display:block;font-size:13px;line-height:1.4;font-weight:500;color:var(--workflow-muted);letter-spacing:.035em}

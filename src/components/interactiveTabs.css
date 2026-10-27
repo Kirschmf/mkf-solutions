@@ -1,0 +1,24 @@
+:where([data-interactive-tabs]) { position: relative; isolation: isolate; }
+[data-interactive-tabs] > :is(button, a) { position: relative; z-index: 2; transition: color .2s, border-color .2s, scale .16s; }
+[data-interactive-tabs] > :is(button, a):active { scale: .985; }
+[data-interactive-tabs] > :is([data-tab-active], [data-tab-hover], [data-tab-ripple]) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--tab-radius, 3px);
+  pointer-events: none;
+  opacity: 0;
+}
+[data-interactive-tabs] > [data-tab-active] { z-index: 0; background: var(--tab-active-bg, #2548f4); }
+[data-interactive-tabs] > [data-tab-hover] { z-index: 1; background: #a9d7ff14; }
+[data-interactive-tabs] > [data-tab-ripple] { z-index: 3; opacity: 1; overflow: hidden; }
+[data-tab-ripple] > div { position: absolute; top: 0; left: 0; border-radius: 50%; background: #d3eaff; opacity: 0; pointer-events: none; }
+[data-interactive-tabs][data-tab-style='fill'] > :is(button, a) { background: transparent; }
+[data-interactive-tabs][data-tab-style='fill'] > :is(button, a):is([aria-pressed='true'], [aria-selected='true'], [aria-current]) { color: #f3eee7; }
+[data-interactive-tabs][data-tab-style='underline'] > [data-tab-active] { background: var(--tab-underline-color, #a9d7ff); border-radius: 2px; }
+[data-interactive-tabs][data-tab-style='underline'] > [data-tab-hover] { background: #a9d7ff55; border-radius: 2px; }
+html[data-reduced-motion='true'] [data-interactive-tabs] > :is([data-tab-hover], [data-tab-ripple]) { opacity: 0; }

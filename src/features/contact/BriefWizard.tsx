@@ -9,6 +9,7 @@ import {MotionHeading} from '../../components/MotionHeading';
 import {needs} from '../../data/services';
 import {buildBriefMessage,createWhatsappUrl,validateBrief} from './briefMessage';
 import {CopyButton} from '../../components/spell/copy-button';
+import InteractiveTabs from '../../components/InteractiveTabs';
 import styles from './contact.module.css';
 
 const faqs=[
@@ -120,7 +121,7 @@ export default function BriefWizard(){
       <div ref={stepContent} className={styles.stepContent}>
        {step===0&&<>
         <p>Selecione a frente que mais se aproxima do seu projeto.</p>
-        <div className={styles.needOptions}>{needs.map(item=><button key={item.id} aria-pressed={need===item.id} onClick={()=>setNeed(item.id)} className={need===item.id?styles.selected:''}>{item.intent}{need===item.id?<Check size={17}/>:<ArrowRight size={17}/>}</button>)}</div>
+        <InteractiveTabs activeKey={need} className={styles.needOptions} role="group" aria-label="Necessidade do projeto">{needs.map(item=><button key={item.id} type="button" aria-pressed={need===item.id} onClick={()=>setNeed(item.id)} className={need===item.id?styles.selected:''}>{item.intent}{need===item.id?<Check size={17}/>:<ArrowRight size={17}/>}</button>)}</InteractiveTabs>
        </>}
        {step===1&&<div className={styles.fields}>
         <label htmlFor="brief-name">Seu nome ou empresa <span>(opcional)</span></label>

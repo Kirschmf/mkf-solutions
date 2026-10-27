@@ -9,6 +9,8 @@ import WorkflowResult from './WorkflowResult';
 import LeadRoute from './LeadRoute';
 import type { OrderInput, Stage, WorkflowEvent } from './workflow.types';
 import MotionHeading from '../../components/MotionHeading';
+import InteractiveTabs from '../../components/InteractiveTabs';
+import { usePanelMotion } from '../../app/usePanelMotion';
 import styles from './workflow.module.css';
 
 const WorkflowGraph=lazy(()=>import('./WorkflowGraph'));
@@ -28,6 +30,8 @@ export default function WorkflowLab(){
   const [inspection,setInspection]=useState<Inspection>({stage:'edit'});
   const [route,setRoute]=useState<'order'|'lead'>('order');
   const [leadOpened,setLeadOpened]=useState(false);
+  const routePanels=useRef<HTMLDivElement>(null);
+  usePanelMotion(routePanels,route,{index:route==='order'?0:1});
   useEffect(()=>{if(route==='lead')setLeadOpened(true);},[route]);
   const [mapOpen,setMapOpen]=useState(false);
   const [desktop,setDesktop]=useState(()=>typeof window!=='undefined'&&window.matchMedia('(min-width: 1000px)').matches);
@@ -81,7 +85,8 @@ export default function WorkflowLab(){
   return <section id="automacoes" className={`section ${styles.section}`} aria-labelledby="workflow-heading">
     <div className="container">
       <div className={styles.heading}><div><p className="eyebrow">Experimente uma operação</p><MotionHeading id="workflow-heading" lines={['Acompanhe o caminho', 'de um pedido.']}/></div><div className={styles.intro} data-motion-group><p data-motion-item>Edite um pedido, acompanhe as regras e decida o próximo passo. Veja o que uma automação faz com cada dado.</p><div className={styles.localBadge} data-motion-item><span aria-hidden="true">◉</span> Demonstração local</div><p className={styles.localNote} data-motion-item>Dados, regras e arquivos funcionam no navegador. Pagamento, ERP e mensagens são demonstrativos.</p></div></div>
-      <div className={styles.routeTabs} role="tablist" aria-label="Rotina para experimentar" onKeyDown={event=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();const next=event.key==='Home'?'order':event.key==='End'?'lead':route==='order'?'lead':'order';setRoute(next);document.getElementById(`${next}-route-tab`)?.focus();}}}><button type="button" role="tab" id="order-route-tab" aria-controls="order-route" tabIndex={route==='order'?0:-1} aria-selected={route==='order'} onClick={()=>setRoute('order')}>01 <span>Do pedido ao acompanhamento</span><span aria-hidden="true">↗</span></button><button type="button" role="tab" id="lead-route-tab" aria-controls="lead-route" tabIndex={route==='lead'?0:-1} aria-selected={route==='lead'} onClick={()=>setRoute('lead')}>02 <span>Do contato ao briefing</span><span aria-hidden="true">↗</span></button></div>
+      <InteractiveTabs activeKey={route} className={styles.routeTabs} role="tablist" aria-label="Rotina para experimentar" onKeyDown={event=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();const next=event.key==='Home'?'order':event.key==='End'?'lead':route==='order'?'lead':'order';setRoute(next);document.getElementById(`${next}-route-tab`)?.focus();}}}><button type="button" role="tab" id="order-route-tab" aria-controls="order-route" tabIndex={route==='order'?0:-1} aria-selected={route==='order'} onClick={()=>setRoute('order')}>01 <span>Do pedido ao acompanhamento</span><span aria-hidden="true">↗</span></button><button type="button" role="tab" id="lead-route-tab" aria-controls="lead-route" tabIndex={route==='lead'?0:-1} aria-selected={route==='lead'} onClick={()=>setRoute('lead')}>02 <span>Do contato ao briefing</span><span aria-hidden="true">↗</span></button></InteractiveTabs>
+      <div ref={routePanels} className={styles.routePanels}>
       {(route==='lead'||leadOpened)&&<div role="tabpanel" id="lead-route" hidden={route!=='lead'} aria-labelledby="lead-route-tab"><LeadRoute/></div>}<div role="tabpanel" id="order-route" hidden={route!=='order'} aria-labelledby="order-route-tab">
         <div className={styles.benchTop}><div><span className={styles.panelLabel}>CENÁRIO</span><label className={styles.srOnly} htmlFor="workflow-preset">Cenário da demonstração</label><select id="workflow-preset" value={preset} onChange={event=>selectPreset(event.target.value)}>{presets.map(item=><option key={item.id} value={item.id}>{item.label}</option>)}</select></div><p>{presets.find(item=>item.id===preset)?.description}</p><div className={styles.roundLabel}>RODADA {state.runId.replace('rodada-','').padStart(2,'0')}</div></div>
         <div className={styles.bench} data-motion-panel>
@@ -99,6 +104,7 @@ export default function WorkflowLab(){
         {desktop&&execution}
         {desktop&&decisions}
         <WorkflowResult state={state}/>
+      </div>
       </div>
       {mapOpen&&<MapDialog onClose={()=>setMapOpen(false)}>{graph}</MapDialog>}
     </div>
